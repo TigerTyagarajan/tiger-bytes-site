@@ -2,7 +2,7 @@ name: Rename tiger-bytes.html to index.html
 on:
   push:
     branches: [main]
-    paths: ['tiger-bytes.html']
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
