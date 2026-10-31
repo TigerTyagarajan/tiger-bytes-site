@@ -1,0 +1,22 @@
+name: Rename tiger-bytes.html to index.html
+on:
+  push:
+    branches: [main]
+    paths: ['tiger-bytes.html']
+permissions:
+  contents: write
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename and remove this workflow
+        run: |
+          set -e
+          if [ ! -f tiger-bytes.html ]; then echo 'tiger-bytes.html not found, nothing to do'; exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git mv tiger-bytes.html index.html
+          git rm .github/workflows/rename-to-index.yml
+          git commit -m 'Rename tiger-bytes.html to index.html'
+          git push
