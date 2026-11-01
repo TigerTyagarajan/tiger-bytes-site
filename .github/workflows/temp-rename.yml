@@ -1,0 +1,25 @@
+name: Temporary rename
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename tiger-bytes.html to index.html
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git mv tiger-bytes.html index.html
+          git commit -m "Rename tiger-bytes.html to index.html"
+          git push
+      - name: Remove temporary rename workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/temp-rename.yml
+          git add -A
+          git commit -m "Remove temporary rename workflow"
+          git push
