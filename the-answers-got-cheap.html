@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Answers Got Cheap — Tiger Bytes</title>
+<meta name="description" content="In October 2026, AI cracked problems mathematics had chased for decades. What broke, what it means for the young starting out, and why every field is next.">
+<meta property="og:title" content="The Answers Got Cheap — Tiger Bytes">
+<meta property="og:description" content="In October 2026, AI cracked problems mathematics had chased for decades. What broke, what it means for the young starting out, and why every field is next.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tigertyagarajan.com/the-answers-got-cheap.html">
+<style>
+:root{color-scheme:light;--bg:#ffffff;--ink:#111111;--muted:#4d4d4d;--card:#ffffff;--line:#e3e3e3;--chip:#f5f5f4;--panel:#f7f7f5;--panel-ink:#111111;--panel-line:#d9d9d6;--footer-muted:#5f5f5f}
+html{scroll-padding-top:84px;background:#ffffff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}h1,h2,h3,h4{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.08;margin:0;font-weight:800;letter-spacing:-.02em}h1{font-size:clamp(2rem,5.5vw,3.4rem)}h2{font-size:clamp(1.5rem,3.5vw,2.2rem)}section h2{font-size:clamp(2.05rem,4.6vw,2.85rem);font-weight:800;line-height:1.14;text-decoration:underline;text-decoration-color:#e8590c;text-decoration-thickness:5px;text-underline-offset:9px}h3{font-size:1.05rem}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:100;background:#ffffff;border-bottom:1px solid var(--line);box-shadow:0 1px 10px rgba(0,0,0,.06)}
+.navin{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;padding:10px 0}.logo{font-weight:800;font-size:1.15rem;letter-spacing:-.02em}.logo span{color:inherit}
+.links{display:flex;flex-wrap:wrap;gap:10px;font-weight:600;font-size:.85rem;align-items:center}.links a{text-decoration:none}.links a:hover{text-decoration:underline;text-underline-offset:3px}
+.links a.active{color:#e8590c;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.links a.btn.active{color:#ffffff!important;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #e8590c}
+.btn{display:inline-block;background:var(--ink);color:var(--bg)!important;padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:700;border:1px solid var(--ink);box-shadow:none}
+.btn:hover{opacity:.85}
+.btn-accent{background:#e8590c;border-color:#e8590c;color:#ffffff!important}
+.btn-accent:hover{background:#d9480f;border-color:#d9480f;opacity:1}
+.hero{padding:28px 0 6px}.kicker{display:inline-block;background:var(--bg);color:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:3px 10px;font-weight:700;font-size:.72rem;letter-spacing:.08em}
+.lede{font-size:1.02rem;line-height:1.55;max-width:720px;color:var(--muted);margin:12px 0 0}
+.heroimg{width:100%;border-radius:8px;border:1px solid var(--ink);box-shadow:none;margin:18px 0;display:block}
+.trip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.trip a{text-decoration:none;padding:14px 16px;border-radius:8px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);font-size:.92rem;transition:background .15s,color .15s}.trip a:hover{background:var(--ink);color:var(--bg)}.trip a:nth-child(1),.trip a:nth-child(2),.trip a:nth-child(3){background:var(--bg)}.trip a:hover:nth-child(1),.trip a:hover:nth-child(2),.trip a:hover:nth-child(3){background:var(--ink)} .trip p{opacity:.85;margin:4px 0 0;color:inherit}
+section{padding:80px 0 48px} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;box-shadow:none} .tag{display:inline-block;background:var(--bg);color:var(--ink);border:1px solid var(--ink);padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:700;letter-spacing:.06em;margin:2px 2px 8px 0}.time{font-weight:700;color:var(--muted);font-size:.9rem}
+.orgs{margin-top:20px}.orggroup{margin-top:14px}.orglabel{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.orggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px}
+.org{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:5px 9px;box-shadow:none}
+.orgtile{background:#ffffff;border:1px solid #e5e5e5;border-radius:4px;padding:3px 6px;display:flex;align-items:center;justify-content:center;height:30px;flex:0 0 auto;filter:grayscale(1)}
+.orgtile img{max-height:21px;max-width:78px;width:auto;display:block;filter:grayscale(1)}
+.orgtile-dark{background:#000000;border-color:#000000}
+.orgtile-dark img{filter:grayscale(1) invert(1)}
+.orgname{font-weight:600;font-size:.84rem;line-height:1.2}
+.career{margin-top:22px}.career h3{margin-bottom:2px;font-size:1rem}
+.careerlist{list-style:none;margin:8px 0 0;padding:0;font-size:.92rem;line-height:1.45}
+.careerlist li{display:grid;grid-template-columns:128px 1fr;gap:2px 14px;padding:8px 0;border-top:1px solid var(--line)}
+.careerlist li:first-child{border-top:none}
+.cwhen{font-weight:700;color:var(--ink);font-size:.84rem}
+.crole{font-weight:700}
+.careerlist p{margin:1px 0 0;color:var(--muted)}
+.podgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:14px}
+.podgroup{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:13px 15px;box-shadow:none}
+.podgroup h4{margin:0 0 7px;font-size:.95rem;font-weight:700}
+.podgroup ul{margin:0;padding:0;list-style:none;font-size:.9rem;line-height:1.4}
+.podgroup li{display:flex;align-items:center;gap:10px;margin:7px 0}
+.podlogo{width:36px;height:36px;border-radius:6px;object-fit:cover;flex:0 0 auto;border:1px solid var(--line);background:var(--chip)}
+.podmono{width:36px;height:36px;border-radius:6px;flex:0 0 auto;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.6rem;letter-spacing:.05em}
+.podgroup a{text-decoration:none;border-bottom:1px solid var(--line)}
+.podgroup a:hover{border-bottom:1px solid var(--ink)}
+.podnote{font-size:.82rem;color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.filters button{border:1px solid var(--ink);background:var(--bg);color:var(--ink);padding:7px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-family:inherit}.filters button.active{background:var(--ink);color:var(--bg)}
+input[type=email]{width:100%;padding:14px;border-radius:6px;border:1px solid #9a9a9a;font-size:1rem;background:#ffffff;color:var(--ink);font-family:inherit} input[type=email]::placeholder{color:#8a8a8a} footer{padding:36px 0;background:#ffffff;color:var(--ink);border-top:1px solid var(--line)}
+.featured{grid-column:1/-1}
+.video-facade{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:1px solid var(--ink);margin:12px 0;background:#000}
+.video-facade img{width:100%;height:100%;object-fit:cover;display:block}
+.video-facade iframe{width:100%;height:100%;border:0;display:block}
+.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;background:#e8590c;border:none;color:#fff;font-size:1.4rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.45);padding:0 0 0 5px}
+.play-btn:hover{background:#d9480f}
+.play-label{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.78);color:#fff;padding:5px 11px;border-radius:999px;font-size:.78rem;font-weight:700;pointer-events:none}
+.chapters{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 18px}
+.chapters li{border-top:1px solid var(--line)}
+.chapters button{background:none;border:none;padding:7px 0;font:inherit;font-size:.88rem;color:inherit;cursor:pointer;display:flex;gap:10px;width:100%;text-align:left}
+.chapters button:hover{text-decoration:underline;text-underline-offset:3px}
+.chapters .ts{font-weight:700;color:#e8590c;flex:0 0 auto;font-variant-numeric:tabular-nums}
+.deck-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.small{font-size:.9rem;color:var(--muted)}section>.wrap>h2+.small,section>.wrap>h2+p{font-size:clamp(1.18rem,2.4vw,1.4rem);font-weight:700;line-height:1.45;color:var(--muted);margin:16px 0 0;max-width:760px}@media(max-width:700px){section{padding:58px 0 38px}section h2{text-decoration-thickness:4px;text-underline-offset:7px}} footer .small{color:var(--muted);opacity:1}
+.dev-watermark{position:fixed;inset:-12%;z-index:80;pointer-events:none;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.dev-watermark-inner{transform:rotate(-18deg);width:160%;display:flex;flex-direction:column;gap:11vh;flex:0 0 auto}
+.dev-watermark span{display:block;white-space:nowrap;font-weight:900;font-size:clamp(2rem,5.5vw,4.2rem);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.055;line-height:1;text-align:center}
+.dev-badge{position:fixed;right:18px;bottom:18px;z-index:90;pointer-events:none;background:#f1f1ef;color:#4d4d4d;border:1px solid #dcdcdc;border-radius:999px;padding:9px 14px;font-size:.8rem;font-weight:700;letter-spacing:.03em;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(0,0,0,.10)}
+.dev-badge i{width:8px;height:8px;border-radius:50%;background:#e8590c;display:block;flex:0 0 auto}
+.dev-status{margin-top:8px;font-weight:600}
+.about-grid{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:28px;margin-top:18px;align-items:start}
+.about-photo{margin:0;position:sticky;top:64px}
+.about-photo img{width:100%;display:block;border-radius:8px;border:1px solid var(--ink);filter:grayscale(1)}
+.about-text p{font-size:1.06rem;line-height:1.7;margin:0 0 16px;max-width:660px}
+.about-text p:last-child{margin-bottom:0}
+.about-text p.about-meet{font-weight:800;text-decoration:underline;text-underline-offset:4px;font-size:1.14rem}
+@media(max-width:700px){html{scroll-padding-top:160px}.trip{grid-template-columns:1fr}.careerlist li{grid-template-columns:1fr}.dev-watermark-inner{gap:9vh}.dev-badge{right:12px;bottom:12px;font-size:.74rem;padding:8px 12px}.about-grid{grid-template-columns:1fr}.about-photo{position:static;max-width:520px}}
+.shelfstack{display:flex;flex-direction:column;gap:12px;margin-top:14px}.podgroup .booklist li{display:flex;align-items:flex-start;gap:12px;margin:10px 0}.booklist .btitle{font-weight:600}.booklist .bauthor{color:var(--muted)}.bookmeta{flex:1 1 auto;min-width:0;padding-top:3px}.bookcover{width:58px;height:86px;object-fit:cover;flex:0 0 auto;border-radius:4px;border:1px solid var(--line);background:var(--chip);box-shadow:0 1px 4px rgba(0,0,0,.18)}.bookfallback{display:flex;flex-direction:column;gap:4px;padding:6px 5px;overflow:hidden;color:#fff;border:none}.bookfallback .fb-title{font-size:.44rem;font-weight:800;line-height:1.3;letter-spacing:.01em;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden}.bookfallback .fb-author{font-size:.4rem;line-height:1.3;opacity:.85;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.gf-biz{background:#94420e}.gf-mind{background:#0e5f59}.gf-hist{background:#7c2128}.gf-astro{background:#1d2f52}.gf-sci{background:#2e5c2e}.gf-lang{background:#7a5c10}.seemore{margin-top:10px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);padding:7px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem}.seemore:hover{background:var(--ink);color:var(--bg)}[data-extra][hidden]{display:none!important}
+.essay-featured{background:var(--card);border:1px solid var(--ink);border-radius:8px;padding:36px 32px;margin-top:18px}
+.essay-featured h3{font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.05;letter-spacing:-.02em;margin-top:10px}
+.essay-author{color:var(--muted);font-size:1rem;margin:10px 0 0;font-style:italic}
+.essay-body{max-width:720px;margin-top:22px}
+.essay-body p{font-size:1.06rem;line-height:1.78;margin:0 0 18px}
+.essay-body p:last-child{margin-bottom:0}
+.essay-deck{margin:26px 0 20px}
+.essay-body h4{font-size:1.35rem;line-height:1.2;margin:36px 0 10px;letter-spacing:-.01em}.essay-body .part-source{margin-top:-4px;margin-bottom:18px}
+@media(max-width:700px){.essay-featured{padding:26px 18px}}
+
+
+.essay-top{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:50}
+.essay-top .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:14px;padding-bottom:14px}
+.essay-brand{font-weight:800;font-size:1.25rem;color:#1a1a1a;text-decoration:none}
+.essay-brand span{color:#e8590c}
+.essay-back{color:#e8590c;font-weight:700;text-decoration:none}
+.essay-main{padding:48px 0 8px}
+.essay-more{border-top:1px solid #eee;margin-top:40px;padding:28px 0 4px}
+.essay-more h4{margin:0 0 10px;font-size:1.05rem}
+.essay-more ul{margin:0;padding-left:18px;line-height:1.9}
+.essay-bites{border:2px solid #e8590c;border-radius:12px;padding:22px;margin:30px 0 8px}
+.essay-bites h4{margin:0 0 6px;font-size:1.15rem}
+.essay-bites p{margin:0 0 12px}
+.essay-foot{padding:26px 0 60px}
+.wm-pill{position:fixed;right:14px;bottom:14px;background:rgba(255,255,255,.9);border:1px solid #ddd;border-radius:999px;padding:6px 12px;font-size:.78rem;color:#888;z-index:60}
+</style></head>
+<body>
+<header class="essay-top"><div class="wrap">
+<a class="essay-brand" href="/">Tiger <span>Bytes</span></a>
+<a class="essay-back" href="/#answers-got-cheap">&larr; Back to Tiger Bytes</a>
+</div></header>
+<main class="essay-main"><div class="wrap">
+<article class="essay-featured" id="answers-got-cheap"><span class="tag">FEATURED ESSAY</span><h3>The Answers Got Cheap</h3><p class="essay-author">An essay by Tiger Tyagarajan</p><div class="essay-body">
+<p>Something happened in October 2026 that I cannot stop thinking about.</p>
+<p>In a single month, a frontier AI model produced serious mathematical results across seventeen fields of mathematics — 719 manuscripts, hundreds of result families. Problems the community had circled for decades, some for a century, suddenly had machine-generated proofs attached to them: a blowup construction for the Navier–Stokes equations, the quasi-Riemann hypothesis pushed past barriers that had held for generations, a resolution of the Unique Games Conjecture.</p>
+<p>I am not a mathematician. I am something arguably more dangerous: a lifelong amateur, a man whose whole career has run on a slightly desperate need to keep learning. So I did what I do. I went and listened to the mathematicians themselves — in this case three of the best, Steven Brunton, Ankur Moitra and Alex Kontorovich, trying to make sense of their own earthquake in real time.</p>
+<p>Here is what I have concluded. The earthquake is not that machines can now do mathematics.</p>
+<p>The earthquake is what it reveals about the difference between an answer and understanding.</p>
+<p>For as long as any of us have been alive, those two things arrived together. To get the answer, someone had to understand. The struggle was the tuition; the proof was the receipt. October separated them. A proof can now be formally verified — checked line by line by unforgiving software — while no human being alive can honestly say they understand why it is true, or what it means, or where it leads.</p>
+<p>Answers have become cheap. Understanding has not. That gap is the whole story.</p>
+<p>Consider the strangest detail of the month. One of the conjectures the machines settled belonged to a living mathematician, Subhash Khot. He declined to read the proof. Not out of pride — out of something closer to grief. Once you have seen a solution, you cannot unsee it. The years you might have spent inside the problem, building the intuition that only that struggle builds, are gone. A spoiler, at the scale of a life's work.</p>
+<p>Now multiply Khot by a generation. Somewhere right now there is a brilliant 24-year-old who chose her problem the way researchers always have — carefully, bravely, as a bet of five years of her life — and woke up to find a model had posted a solution overnight. The old playbook said: pick a hard problem, be patient, become the person the problem makes you. The playbook is not wrong, exactly. It is unfinished. Nobody yet knows what the new one says, and the people who most need it are the youngest, with the least power to rewrite it.</p>
+<p>That is the part I keep returning to. Not the machines. The young.</p>
+<p>Because here is the thing nobody in business should miss: mathematics is not the exception. Mathematics is the preview.</p>
+<p>Every field gets its own October. The order is not random. Fields fall in the order of how cheaply their answers can be checked. A proof can be verified by software in seconds — so mathematics went first, and went completely. Where verification is slower, messier, more human — medicine, law, engineering, management — the same wave arrives later and lands differently. But it arrives. The pattern is always the same: producing answers gets cheap; telling a good answer from a bad one, and knowing which question was worth asking, gets expensive.</p>
+<p>I have spent forty years watching technologies do this to industries. The scarce skill is never the one being automated. It is the one standing next to it.</p>
+<p>So what stands next to answer-making? Judgement. Taste. The ability to look at fifty machine-generated results and sense which one matters. The stubbornness to ask why a verified proof is true, not merely that it is. And underneath all of it, the engine I have bet my own life on: curiosity — not as decoration, but as discipline. The questions were always the human part. Now they are almost the only part.</p>
+<p>There is a metaphor from that conversation I cannot shake. For centuries, mathematicians climbed the mountain on foot, and the climbing was the education — you arrived at the summit as someone the ascent had made. Now there is a helicopter. It will happily drop you at the top. The view is identical. The understanding is not. The future belongs to people who, knowing the helicopter exists, still understand what the climb was for — and choose, deliberately, where to climb on foot and where to fly.</p>
+<p>Mathematics has survived its own death before; it has reinvented itself after every crisis for three thousand years. It will do so again. The question October asks the rest of us — in boardrooms, in classrooms, in every profession that trades in answers — is whether we will be as honest as the mathematicians were forced to be, about what our work actually consists of once the answers are free.</p>
+<p>I have gone deep on this — the breakthroughs, the spoiler problem, what I would now say to that 24-year-old, and why your field is next — in a 40-slide presentation I have put together from that conversation. If this essay has done its job, it has made you curious. The deck is where the curiosity gets fed.</p>
+<p class="essay-deck"><a class="btn btn-accent" href="https://tigertyagarajan.com/the-mathematics-singularity.pdf" target="_blank" rel="noopener">Go deep: The Mathematics Singularity — 40 slides (PDF)</a></p>
+<p>Read it. Argue with it. Correct me. That was always the point.</p>
+</div></article>
+<div class="essay-more"><h4>More like this</h4><ul>
+<li><a href="/born-curious.html">Born Curious, Taught to Comply — the essay</a></li>
+<li><a href="/career-framework.html">The Art & Science of Building a Career — the framework</a></li>
+<li><a href="/#hubs">Explore the Hubs — every big idea in one place</a></li>
+</ul></div>
+<div class="essay-bites"><h4>Tiger Bites — the newsletter</h4>
+<p>Enjoyed this? Tiger Bites is my newsletter: a question I am chewing on, a framework for feedback, and the occasional debate. Join the community.</p>
+<form action="https://buttondown.com/api/emails/embed-subscribe/tigerbites" method="post"><label>Email address <input type="email" required name="email" placeholder="you@example.com"></label><p><button class="btn btn-accent" type="submit">Subscribe to Tiger Bites →</button></p></form>
+</div>
+<p class="essay-foot"><a class="essay-back" href="/#answers-got-cheap">&larr; Back to Tiger Bytes</a></p>
+</div></main>
+<div class="wm-pill">Under development — Version 1.0</div>
+</body></html>
