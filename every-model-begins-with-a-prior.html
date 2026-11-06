@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every Model Begins with a Prior — Tiger Bytes</title>
+<meta name="description" content="A Tunbridge Wells minister solved how to learn from evidence in 1761 — then filed the theorem in a drawer. How Bayes's idea was buried, rescued and banned, and why it now runs the age of AI.">
+<meta property="og:title" content="Every Model Begins with a Prior — Tiger Bytes">
+<meta property="og:description" content="A Tunbridge Wells minister solved how to learn from evidence in 1761 — then filed the theorem in a drawer. How Bayes's idea was buried, rescued and banned, and why it now runs the age of AI.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tigertyagarajan.com/every-model-begins-with-a-prior.html">
+<style>
+:root{color-scheme:light;--bg:#ffffff;--ink:#111111;--muted:#4d4d4d;--card:#ffffff;--line:#e3e3e3;--chip:#f5f5f4;--panel:#f7f7f5;--panel-ink:#111111;--panel-line:#d9d9d6;--footer-muted:#5f5f5f}
+html{scroll-padding-top:84px;background:#ffffff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}h1,h2,h3,h4{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.08;margin:0;font-weight:800;letter-spacing:-.02em}h1{font-size:clamp(2rem,5.5vw,3.4rem)}h2{font-size:clamp(1.5rem,3.5vw,2.2rem)}section h2{font-size:clamp(2.05rem,4.6vw,2.85rem);font-weight:800;line-height:1.14;text-decoration:underline;text-decoration-color:#e8590c;text-decoration-thickness:5px;text-underline-offset:9px}h3{font-size:1.05rem}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:100;background:#ffffff;border-bottom:1px solid var(--line);box-shadow:0 1px 10px rgba(0,0,0,.06)}
+.navin{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;padding:10px 0}.logo{font-weight:800;font-size:1.15rem;letter-spacing:-.02em}.logo span{color:inherit}
+.links{display:flex;flex-wrap:wrap;gap:10px;font-weight:600;font-size:.85rem;align-items:center}.links a{text-decoration:none}.links a:hover{text-decoration:underline;text-underline-offset:3px}
+.links a.active{color:#e8590c;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.links a.btn.active{color:#ffffff!important;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #e8590c}
+.btn{display:inline-block;background:var(--ink);color:var(--bg)!important;padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:700;border:1px solid var(--ink);box-shadow:none}
+.btn:hover{opacity:.85}
+.btn-accent{background:#e8590c;border-color:#e8590c;color:#ffffff!important}
+.btn-accent:hover{background:#d9480f;border-color:#d9480f;opacity:1}
+.hero{padding:28px 0 6px}.kicker{display:inline-block;background:var(--bg);color:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:3px 10px;font-weight:700;font-size:.72rem;letter-spacing:.08em}
+.lede{font-size:1.02rem;line-height:1.55;max-width:720px;color:var(--muted);margin:12px 0 0}
+.heroimg{width:100%;border-radius:8px;border:1px solid var(--ink);box-shadow:none;margin:18px 0;display:block}
+.trip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.trip a{text-decoration:none;padding:14px 16px;border-radius:8px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);font-size:.92rem;transition:background .15s,color .15s}.trip a:hover{background:var(--ink);color:var(--bg)}.trip a:nth-child(1),.trip a:nth-child(2),.trip a:nth-child(3){background:var(--bg)}.trip a:hover:nth-child(1),.trip a:hover:nth-child(2),.trip a:hover:nth-child(3){background:var(--ink)} .trip p{opacity:.85;margin:4px 0 0;color:inherit}
+section{padding:80px 0 48px} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;box-shadow:none} .tag{display:inline-block;background:var(--bg);color:var(--ink);border:1px solid var(--ink);padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:700;letter-spacing:.06em;margin:2px 2px 8px 0}.time{font-weight:700;color:var(--muted);font-size:.9rem}
+.orgs{margin-top:20px}.orggroup{margin-top:14px}.orglabel{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.orggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px}
+.org{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:5px 9px;box-shadow:none}
+.orgtile{background:#ffffff;border:1px solid #e5e5e5;border-radius:4px;padding:3px 6px;display:flex;align-items:center;justify-content:center;height:30px;flex:0 0 auto;filter:grayscale(1)}
+.orgtile img{max-height:21px;max-width:78px;width:auto;display:block;filter:grayscale(1)}
+.orgtile-dark{background:#000000;border-color:#000000}
+.orgtile-dark img{filter:grayscale(1) invert(1)}
+.orgname{font-weight:600;font-size:.84rem;line-height:1.2}
+.career{margin-top:22px}.career h3{margin-bottom:2px;font-size:1rem}
+.careerlist{list-style:none;margin:8px 0 0;padding:0;font-size:.92rem;line-height:1.45}
+.careerlist li{display:grid;grid-template-columns:128px 1fr;gap:2px 14px;padding:8px 0;border-top:1px solid var(--line)}
+.careerlist li:first-child{border-top:none}
+.cwhen{font-weight:700;color:var(--ink);font-size:.84rem}
+.crole{font-weight:700}
+.careerlist p{margin:1px 0 0;color:var(--muted)}
+.podgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:14px}
+.podgroup{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:13px 15px;box-shadow:none}
+.podgroup h4{margin:0 0 7px;font-size:.95rem;font-weight:700}
+.podgroup ul{margin:0;padding:0;list-style:none;font-size:.9rem;line-height:1.4}
+.podgroup li{display:flex;align-items:center;gap:10px;margin:7px 0}
+.podlogo{width:36px;height:36px;border-radius:6px;object-fit:cover;flex:0 0 auto;border:1px solid var(--line);background:var(--chip)}
+.podmono{width:36px;height:36px;border-radius:6px;flex:0 0 auto;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.6rem;letter-spacing:.05em}
+.podgroup a{text-decoration:none;border-bottom:1px solid var(--line)}
+.podgroup a:hover{border-bottom:1px solid var(--ink)}
+.podnote{font-size:.82rem;color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.filters button{border:1px solid var(--ink);background:var(--bg);color:var(--ink);padding:7px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-family:inherit}.filters button.active{background:var(--ink);color:var(--bg)}
+input[type=email]{width:100%;padding:14px;border-radius:6px;border:1px solid #9a9a9a;font-size:1rem;background:#ffffff;color:var(--ink);font-family:inherit} input[type=email]::placeholder{color:#8a8a8a} footer{padding:36px 0;background:#ffffff;color:var(--ink);border-top:1px solid var(--line)}
+.featured{grid-column:1/-1}
+.video-facade{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:1px solid var(--ink);margin:12px 0;background:#000}
+.video-facade img{width:100%;height:100%;object-fit:cover;display:block}
+.video-facade iframe{width:100%;height:100%;border:0;display:block}
+.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;background:#e8590c;border:none;color:#fff;font-size:1.4rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.45);padding:0 0 0 5px}
+.play-btn:hover{background:#d9480f}
+.play-label{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.78);color:#fff;padding:5px 11px;border-radius:999px;font-size:.78rem;font-weight:700;pointer-events:none}
+.chapters{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 18px}
+.chapters li{border-top:1px solid var(--line)}
+.chapters button{background:none;border:none;padding:7px 0;font:inherit;font-size:.88rem;color:inherit;cursor:pointer;display:flex;gap:10px;width:100%;text-align:left}
+.chapters button:hover{text-decoration:underline;text-underline-offset:3px}
+.chapters .ts{font-weight:700;color:#e8590c;flex:0 0 auto;font-variant-numeric:tabular-nums}
+.deck-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.small{font-size:.9rem;color:var(--muted)}section>.wrap>h2+.small,section>.wrap>h2+p{font-size:clamp(1.18rem,2.4vw,1.4rem);font-weight:700;line-height:1.45;color:var(--muted);margin:16px 0 0;max-width:760px}@media(max-width:700px){section{padding:58px 0 38px}section h2{text-decoration-thickness:4px;text-underline-offset:7px}} footer .small{color:var(--muted);opacity:1}
+.about-grid{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:28px;margin-top:18px;align-items:start}
+.about-photo{margin:0;position:sticky;top:64px}
+.about-photo img{width:100%;display:block;border-radius:8px;border:1px solid var(--ink);filter:grayscale(1)}
+.about-text p{font-size:1.06rem;line-height:1.7;margin:0 0 16px;max-width:660px}
+.about-text p:last-child{margin-bottom:0}
+.about-text p.about-meet{font-weight:800;text-decoration:underline;text-underline-offset:4px;font-size:1.14rem}
+@media(max-width:700px){html{scroll-padding-top:160px}.trip{grid-template-columns:1fr}.careerlist li{grid-template-columns:1fr}.about-grid{grid-template-columns:1fr}.about-photo{position:static;max-width:520px}}
+.shelfstack{display:flex;flex-direction:column;gap:12px;margin-top:14px}.podgroup .booklist li{display:flex;align-items:flex-start;gap:12px;margin:10px 0}.booklist .btitle{font-weight:600}.booklist .bauthor{color:var(--muted)}.bookmeta{flex:1 1 auto;min-width:0;padding-top:3px}.bookcover{width:58px;height:86px;object-fit:cover;flex:0 0 auto;border-radius:4px;border:1px solid var(--line);background:var(--chip);box-shadow:0 1px 4px rgba(0,0,0,.18)}.bookfallback{display:flex;flex-direction:column;gap:4px;padding:6px 5px;overflow:hidden;color:#fff;border:none}.bookfallback .fb-title{font-size:.44rem;font-weight:800;line-height:1.3;letter-spacing:.01em;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden}.bookfallback .fb-author{font-size:.4rem;line-height:1.3;opacity:.85;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.gf-biz{background:#94420e}.gf-mind{background:#0e5f59}.gf-hist{background:#7c2128}.gf-astro{background:#1d2f52}.gf-sci{background:#2e5c2e}.gf-lang{background:#7a5c10}.seemore{margin-top:10px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);padding:7px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem}.seemore:hover{background:var(--ink);color:var(--bg)}[data-extra][hidden]{display:none!important}
+.essay-featured{background:var(--card);border:1px solid var(--ink);border-radius:8px;padding:36px 32px;margin-top:18px}
+.essay-featured h3{font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.05;letter-spacing:-.02em;margin-top:10px}
+.essay-author{color:var(--muted);font-size:1rem;margin:10px 0 0;font-style:italic}
+.essay-body{max-width:720px;margin-top:22px}
+.essay-body p{font-size:1.06rem;line-height:1.78;margin:0 0 18px}
+.essay-body p:last-child{margin-bottom:0}
+.essay-deck{margin:26px 0 20px}
+.essay-body h4{font-size:1.35rem;line-height:1.2;margin:36px 0 10px;letter-spacing:-.01em}.essay-body .part-source{margin-top:-4px;margin-bottom:18px}
+@media(max-width:700px){.essay-featured{padding:26px 18px}}
+.essay-top{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:50}
+.essay-top .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:14px;padding-bottom:14px}
+.essay-brand{font-weight:800;font-size:1.25rem;color:#1a1a1a;text-decoration:none}
+.essay-brand span{color:#e8590c}
+.essay-back{color:#e8590c;font-weight:700;text-decoration:none}
+.essay-main{padding:48px 0 8px}
+.essay-more{border-top:1px solid #eee;margin-top:40px;padding:28px 0 4px}
+.essay-more h4{margin:0 0 10px;font-size:1.05rem}
+.essay-more ul{margin:0;padding-left:18px;line-height:1.9}
+.essay-bites{border:2px solid #e8590c;border-radius:12px;padding:22px;margin:30px 0 8px}
+.essay-bites h4{margin:0 0 6px;font-size:1.15rem}
+.essay-bites p{margin:0 0 12px}
+.essay-foot{padding:26px 0 60px}
+/* link-underline-fix: orange content links not underlined at rest */
+a{text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+</style>
+<style>
+/* Orange buttons & click-throughs — aligned with homepage, 2026-11-03 */
+.btn{background:#e8590c!important;border-color:#e8590c!important;color:#ffffff!important}
+.btn:hover{background:#d9480f!important;border-color:#d9480f!important;opacity:1}
+.essay-main a{color:#e8590c}
+.essay-main a:hover{color:#d9480f}
+.essay-bites button[type=submit]{background:#e8590c;border-color:#e8590c;color:#fff}
+</style>
+</head>
+<body>
+<header class="essay-top"><div class="wrap">
+<a class="essay-brand" href="/">Tiger <span>Bytes</span></a>
+<a class="essay-back" href="/#every-model-begins-with-a-prior">&larr; Back to Tiger Bytes</a>
+</div></header>
+<main class="essay-main"><div class="wrap">
+<article class="essay-featured" id="every-model-begins-with-a-prior"><span class="tag">FEATURED ESSAY</span><h3>Every Model Begins with a Prior</h3><p class="essay-author">An essay by Tiger Tyagarajan</p><div class="essay-body">
+<p><em>The story of Bayes&#x27;s theorem — drawn from the five episodes of Update Your Priors — and what it teaches the age of AI.</em></p>
+<h4>The Letter He Never Sent</h4>
+<p>In 1761, a dissenting minister in Tunbridge Wells sat down to write one of the strangest letters in history.</p>
+<p>He wrote it to himself. He never sent it, never published it, and when he died two years later, it was found tucked among his personal papers, unfinished.</p>
+<p>His name was Thomas Bayes, and the question he had answered — quietly, privately, and then apparently buried — is the question that now runs your life.</p>
+<p>This is the story of how Bayes found the answer, why he buried it, how it was rescued, how it vanished anyway, and how it came back to run the world.</p>
+<p>It is also, though Bayes could not have known it, the story of how machines would one day learn to think.</p>
+<h4>The Problem: Reasoning Backwards</h4>
+<p>To understand what Bayes did, you first need to understand the problem he was trying to solve. It is one of the most basic things a thinking creature can attempt: reason backwards, from evidence to cause.</p>
+<p>Here is a simple version. You wake up in a room with no windows. You have no idea what the weather is like outside. Someone walks in dripping wet. What do you conclude?</p>
+<p>You update your belief. The dripping coat is evidence. Before it, you might have thought rain was maybe fifty-fifty. After it, you think rain much more likely. You have reasoned from an observation to a revised belief about the world.</p>
+<p>Every mind does this. What no one could do, for centuries, was say <em>precisely how much</em> the wet coat should change your mind.</p>
+<p>That is the problem of inverse probability, and it matters enormously, because science works forwards — model, prediction, test — but life is lived backwards.</p>
+<p>A doctor sees a symptom and reasons toward a diagnosis. A geologist sees a rock and reasons toward a history. An astronomer sees light from a distant star and reasons toward its composition.</p>
+<p>For centuries there was no rigorous mathematics for any of it. Philosophers argued. Mathematicians threw up their hands.</p>
+<p>And then Thomas Bayes, in his private study, quietly solved it.</p>
+<h4>The Billiard Table</h4>
+<p>His method was ingenious. Imagine a billiard table. You stand with your back to it.</p>
+<p>A ball is rolled onto the table; you do not see where it lands. A second ball is rolled, and you are told only whether it fell to the left or the right of the first. Then a third ball. A fourth. A tenth. A hundredth.</p>
+<p>Each observation tells you a little more. After one, you know almost nothing. After a hundred, you can pinpoint the first ball fairly precisely — without ever having seen it.</p>
+<p>That is Bayesian reasoning. You begin with a prior belief — at the start, every position on the table is equally likely. Evidence arrives. You update, in proportion to the strength of the evidence. You arrive at a posterior belief: a revised estimate, given everything you have seen.</p>
+<p>In plain terms, the theorem says your new belief should be proportional to your old belief multiplied by the likelihood of the evidence. Evidence that would be very likely if your hypothesis were true makes the hypothesis more credible. Evidence that would be unlikely makes it less.</p>
+<p>And the theorem tells you exactly how to weigh the two.</p>
+<h4>What It Means for AI: Every Model Begins with a Prior</h4>
+<p>Hold that picture — a mind, a prior, a stream of evidence, an honest update — because it is also a precise description of how artificial intelligence now learns.</p>
+<p>A modern AI model begins its life as a kind of prior: an initial state of expectation about the world, built from everything it was trained on.</p>
+<p>Then evidence arrives — new data, a correction, a reward, a failure — and the model&#x27;s beliefs shift, weighted by how surprising that evidence is under what it already thought.</p>
+<p>Training is updating at industrial scale. Fine-tuning is updating with a narrower, stronger stream of evidence.</p>
+<p>Even the spam filter in your inbox — the humble technology that saved email — works exactly as Bayes prescribed. It starts with a prior, roughly what fraction of mail is junk, reads the message word by word, and lets each word move the probability until a posterior verdict emerges.</p>
+<p>Paul Graham&#x27;s filter of 2002 ran on mathematics worked out in a Tunbridge Wells study in the 1750s.</p>
+<p>The billiard table turned out to be a metaphor for how minds work — biological and artificial alike.</p>
+<h4>Why Did Bayes Bury It?</h4>
+<p>But here is the puzzle historians have argued about for two centuries. The manuscript was polished. It had worked examples. It read like something meant to be shared.</p>
+<p>Why didn&#x27;t Bayes publish it?</p>
+<p>The most charitable reading is that he doubted it himself — and the doubt was not a small one. Bayes was troubled by the prior.</p>
+<p>On the billiard table, assuming every position equally likely seemed defensible. But in the real world, where does your starting number come from? Choose the wrong prior and the posterior can mislead you arbitrarily.</p>
+<p>Bayes may have seen that he had built something mathematically elegant but philosophically unstable — and for a man of his careful temperament, publishing what he could not fully defend felt irresponsible.</p>
+<p>There is a darker possibility, too. Probability in his era was tangled up with theology. David Hume had just argued that no testimony could ever overcome the prior improbability of a miracle. Bayes&#x27;s theorem could be weaponised in that fight, by either side. Perhaps he wanted no part of it.</p>
+<p>Whatever the reason: when Thomas Bayes died in April 1761, aged around sixty, the theorem was still in the drawer.</p>
+<h4>Richard Price: The Friend Who Found the Manuscript</h4>
+<p>Enter Richard Price.</p>
+<p>Price was Bayes&#x27;s friend — also a dissenting minister, also a serious intellect, and far less cautious. Price was a political radical who would go on to defend both the American and the French Revolutions. He was not a man who worried about upsetting people.</p>
+<p>He found the manuscript among Bayes&#x27;s papers, read it, understood it, worked through the mathematics, expanded it, and in 1763 stood before the Royal Society and presented it to the world.</p>
+<p>Price added something of his own, and it was not a footnote — it was a claim about the deepest problem in philosophy: induction.</p>
+<p>We have seen the sun rise every day of our lives. We conclude it will rise tomorrow. Why?</p>
+<p>Price argued that Bayes&#x27;s theorem is the mathematics of exactly that reasoning. Each sunrise is a data point. Each data point updates our confidence. Not to certainty — never to certainty — but precisely as confident as the evidence warrants, and the theorem tells us how confident that is.</p>
+<p>Bayesian reasoning, Price saw, is not a trick for billiard balls. It is a description of how rational minds actually work.</p>
+<p>The Royal Society received it politely. A few mathematicians took note.</p>
+<p>And then — gradually, over the next century — it faded.</p>
+<p>Almost. Because the story has a second discoverer, and he was not the cautious type.</p>
+<h4>The Second Discoverer</h4>
+<p>Pierre-Simon Laplace arrived in Paris from Normandy at twenty-three, a mathematical talent of the first order — the man who would be called the French Newton.</p>
+<p>By the 1770s, working independently, he arrived at essentially the same theorem. And where Bayes had hesitated, Laplace built.</p>
+<p>He made it a general system for reasoning under uncertainty and put it to work everywhere: estimating the mass of Saturn from error-riddled observations, analysing the ratio of male to female births in Paris, combining inconsistent measurements into single best estimates.</p>
+<p>Asked by Napoleon why his great work on the heavens made no mention of God, Laplace is said to have replied: I had no need of that hypothesis.</p>
+<p>That was the confidence of the new method. Given enough evidence, honestly updated, you could reason about almost anything — including the probability that the sun would rise tomorrow, which Laplace computed to be overwhelming, but — and this is the whole point — not certain.</p>
+<h4>What It Means for AI: The Prior Is Not an Embarrassment</h4>
+<p>Laplace&#x27;s way of handling the prior deserves a pause, because artificial intelligence ran straight into the same wall two and a half centuries later.</p>
+<p>Laplace&#x27;s answer to &quot;where does the prior come from?&quot; was the principle of indifference: in the absence of information, treat all outcomes as equally likely.</p>
+<p>Every machine-learning practitioner will recognise the move — and its discontents. A model with no prior knowledge must start somewhere, and &quot;assume everything is equally likely&quot; is a choice, not an escape from choosing.</p>
+<p>Modern AI is built on priors whether it admits it or not. The architecture is a prior about what patterns exist. The training data is a prior about what the world contains. The fine-tuning is a prior about what matters.</p>
+<p>Laplace&#x27;s lesson, and Bayes&#x27;s before him, is that the prior is not an embarrassment to be hidden. It is the accumulated knowledge of the system, made explicit.</p>
+<p>The only real choice is whether you state it — or smuggle it in.</p>
+<h4>The Vanishing</h4>
+<p>By the time Laplace died in 1827, his version of Bayesian reasoning was already fading.</p>
+<p>What killed it was not a better argument. It was a philosophy.</p>
+<p>The nineteenth century fell in love with positivism: the doctrine that only what can be directly observed and measured belongs in science.</p>
+<p>Under that rule, the Bayesian prior was a scandal. It is not observable. It is not measurable. Two people with different priors, shown the same evidence, give different answers — metaphysics, said the positivists, and metaphysics is banned.</p>
+<p>Karl Pearson, founder of the journal Biometrika and effective pope of British statistics, rebuilt probability on the only foundation positivism allowed: frequency.</p>
+<p>A probability is how often something happens in repeated trials — clear, testable, reproducible. And single cases? Hypotheses? Beliefs? Frequencies do not apply cleanly there, so they were defined out of science altogether.</p>
+<h4>What It Means for AI: The New Positivism</h4>
+<p>Notice what actually happened — because the world of AI is doing it again today.</p>
+<p>Banning priors did not remove beliefs from science. It drove them underground, into the methodology, where they could not be seen or questioned.</p>
+<p>Pearson&#x27;s own methods rested on assumptions every bit as much prior beliefs as anything Laplace used. They were simply invisible.</p>
+<p>A field that can only ask countable questions will gravitate toward countable questions, and the important ones — the single case, the judgement call, the unprecedented event — get sidelined.</p>
+<p>Every era of AI has its version of this. When only benchmark scores count as real, everything a benchmark cannot measure — judgement, taste, robustness in the strange case, the long tail where the world actually lives — is quietly treated as unreal.</p>
+<p>And the priors do not disappear; they hide in the choice of dataset, the design of the evaluation, the preferences of the people labelling the examples.</p>
+<p>Invisible beliefs are much harder to criticise than visible ones. That was true in 1901. It is true in every model card published today.</p>
+<h4>The Empire in a Field</h4>
+<p>Then came the man who built the empire on positivism&#x27;s foundations — and he built it, fittingly, in a field.</p>
+<p>Rothamsted, Hertfordshire: an agricultural research station, plots of wheat growing at different rates. Some patches flourishing, some failing.</p>
+<p>The practical question — does this fertiliser work, or is it luck? — became, in Ronald Fisher&#x27;s hands, one of the deepest questions in science.</p>
+<p>Some patches do better by pure chance. How do you tell a real effect from a lucky run? Fisher&#x27;s answer became the foundation of every randomised trial conducted since.</p>
+<p>His machinery was brilliant. Design the experiment before you see the data. Randomise. Decide in advance what will count as evidence.</p>
+<p>Then compute: <em>if nothing were going on — if the coin were fair, if the fertiliser were useless — how surprising would this result be?</em></p>
+<p>That probability is the p-value. If it is small enough, the result is declared significant.</p>
+<h4>The Teacup Test</h4>
+<p>Fisher illustrated it with a story that has never been improved.</p>
+<p>A lady claimed she could taste whether the milk or the tea had been poured first into the cup. Fisher said: let us test it.</p>
+<p>Eight cups, four of each kind. If she were guessing, there are seventy ways to choose four cups from eight — so the chance of a perfect score by luck alone is one in seventy.</p>
+<p>She got all eight right.</p>
+<p>But watch what Fisher&#x27;s method refuses to ask. It never asks: how likely is it, actually, that this lady can taste the difference?</p>
+<p>Before the experiment, that prior probability was low — most people cannot. Even a perfect score, weighed against a low prior, might not make her claim probable.</p>
+<p>Fisher&#x27;s test asks a different question: would this result happen by chance <em>if there were no effect?</em></p>
+<h4>Significance Is Not Plausibility</h4>
+<p>That is not a trivial distinction. It is the distinction.</p>
+<p>Significance tells you about chance. Bayesian reasoning tells you about plausibility. They are different tools for different jobs — and the tragedy of the next century is that science mostly kept only one of them.</p>
+<p>The consequences were enormous, and they were not all bad. Fisher&#x27;s methods gave science a common language, turned agricultural trials into a rigorous discipline and drug testing into something reproducible. Anyone applying the same test to the same data got the same answer — objectivity as a design goal, achieved.</p>
+<p>But the empire had a gate, and the gate was the threshold: p below 0.05, publish; above it, buried.</p>
+<p>Nothing about the number 0.05 is a law of nature. It is a convention — a useful one, perhaps, but a choice.</p>
+<p>And slowly the question researchers asked changed, from <em>is this effect real and large?</em> to <em>is this result significant?</em> The two are not the same. An effect can be significant and trivial. A large effect can fail significance in a small sample.</p>
+<p>Fisher, who called the prior &quot;a particularly dangerous idea&quot; and built his system to keep private belief out of the result, had — with the deepest irony — built a system whose disputes became strained, personal, and anything but belief-free within his own lifetime.</p>
+<p>Taking opinion out of the mathematics did not take people out of the argument.</p>
+<h4>What It Means for AI: Living in Fisher&#x27;s Empire</h4>
+<p>If you work anywhere near artificial intelligence, you live inside Fisher&#x27;s empire and Bayes&#x27;s rebellion at the same time.</p>
+<p>AI evaluates itself with Fisher&#x27;s tools: controlled experiments, A/B tests, significance thresholds, leaderboards where a fraction of a point decides which model is declared better.</p>
+<p>And it falls into Fisher&#x27;s trap, daily. Improvements that are statistically significant and practically trivial. Results that would evaporate under a slightly different test. The question <em>is it significant?</em> crowding out the question <em>is it true, and does it matter?</em></p>
+<p>The Bayesian question is the one the field keeps needing and Fisher taught it to suppress: given everything we knew before this experiment — the base rates, the plausibility, the track record — how much should this evidence actually move us?</p>
+<p>A capability claim with a low prior needs overwhelming evidence, not a p-value squeaking under a line. A result that contradicts everything established needs more than a benchmark.</p>
+<p>That discipline — state your prior, meet the evidence, update by exactly what the evidence is worth — is not an antique philosophy of statistics.</p>
+<p>It is the operating manual for thinking clearly in the age of AI, when new claims arrive hourly and each one demands to know: how much should I change my mind?</p>
+<h4>The Return of the Idea</h4>
+<p>And here is the ending Bayes never saw. His idea won anyway.</p>
+<p>Bayesian reasoning is now everywhere: in the spam filter and the GPS, in clinical trials and weather forecasts, in diagnostic systems and recommendation engines, in the probabilistic machinery underneath modern machine learning itself.</p>
+<p>The mathematics of learning from experience turned out to be — the mathematics of learning from experience, and every learning system, human or artificial, converges on it in the end.</p>
+<p>Yet Fisher&#x27;s empire also remains. Most scientists still learn statistics in his terms, and most of us still read &quot;significant&quot; as &quot;probably true,&quot; though we have seen it is not.</p>
+<p>The honest position is the one the story teaches. We need both questions, and we need to know which is which.</p>
+<h4>The Lesson of the Drawer</h4>
+<p>So what should we make of the man who started it — who discovered something this consequential and sat on it for twenty years?</p>
+<p>Read one way, it is a cautionary tale about perfectionism: Bayes had the theorem, saw it was right, and could not resolve every objection, so he held it back.</p>
+<p>But there is another reading, and it is the more useful one for us.</p>
+<p>The objection Bayes worried about — where does the prior come from, and how do you justify it? — was the deepest question in his own theorem, and he understood it better than most of the people who used the theorem for the next two hundred years.</p>
+<p>The war over that question consumed some of the finest mathematical minds of the twentieth century. It continues now, in new dress: over what our models should assume before they see data, over whose beliefs get encoded in the systems that increasingly reason on our behalf, over how a machine — or a person — should hold a belief it cannot fully justify.</p>
+<p>Bayes&#x27;s answer, in the end, was not silence. It was the theorem itself.</p>
+<p>You cannot wait for certainty; certainty is not on offer.</p>
+<p>You state what you believe, as honestly as you can. You meet the evidence, all of it, especially the evidence that surprises you. And you update — by exactly as much as the evidence warrants, no more, no less.</p>
+<p>The prior is not the bug in the system. The prior is the feature. It is how knowledge accumulates — how a doctor uses twenty years of patients before she orders the test, how a scientist builds on a field instead of starting fresh each morning, how a model, and a mind, becomes less wrong over time.</p>
+<p>In 1763, two years after Bayes was buried at Bunhill Fields, Richard Price stood before the Royal Society and gave the theorem to the world.</p>
+<p>The room received it politely. It faded, was found again, was banned, was buried, and came back to run the twenty-first century.</p>
+<p>The story is not finished. It is running now, in every system that learns — and in every one of us, every time we do the hardest and most Bayesian thing a mind can do: change it, on purpose, by the right amount.</p>
+<p>I have told this story as a presentation, too — twenty slides that put the drawer, the billiard table and the teacup test in pictures. If this essay has done its job, it has made you curious. The deck is where the curiosity gets fed.</p>
+<p class="essay-deck"><a class="btn btn-accent" href="https://tigertyagarajan.com/every-model-begins-with-a-prior-deck.pdf" target="_blank" rel="noopener">Go deep: Every Model Begins with a Prior — 20 slides (PDF)</a></p>
+<p>Read it. Argue with it. Correct me. That was always the point.</p>
+</div></article>
+<div class="essay-more"><h4>More like this</h4><ul>
+<li><a href="/the-answers-got-cheap.html">The Answers Got Cheap — the essay</a></li>
+<li><a href="/born-curious.html">Born Curious, Taught to Comply — the essay</a></li>
+<li><a href="/#hubs">Explore the Hubs — every big idea in one place</a></li>
+</ul></div>
+<div class="essay-bites"><h4>Tiger Bites — the newsletter</h4>
+<p>Enjoyed this? Tiger Bites is my newsletter: a question I am chewing on, a framework for feedback, and the occasional debate. Join the community.</p>
+<form action="https://buttondown.com/api/emails/embed-subscribe/tigerbites" method="post"><label>Email address <input type="email" required name="email" placeholder="you@example.com"></label><p><button class="btn btn-accent" type="submit">Subscribe to Tiger Bites →</button></p></form>
+</div>
+<p class="essay-foot"><a class="essay-back" href="/#every-model-begins-with-a-prior">&larr; Back to Tiger Bytes</a></p>
+</div></main>
+</body></html>
