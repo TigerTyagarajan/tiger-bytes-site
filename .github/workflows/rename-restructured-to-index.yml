@@ -1,0 +1,22 @@
+name: Rename restructured to index (one-off)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename index-restructured.html to index.html
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git mv index-restructured.html index.html
+          rm .github/workflows/rename-restructured-to-index.yml
+          git add -A
+          git commit -m "Rename index-restructured.html to index.html"
+          git push
