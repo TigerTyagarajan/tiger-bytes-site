@@ -60,7 +60,7 @@ def load_alt_texts():
     alts = {}
     text = (ROOT / 'SELECTIONS.md').read_text(encoding='utf-8')
     for line in text.splitlines():
-        m = re.match(r'\*\*([^*]+\.jpg)\*\*\W+(.*)$', line)
+        m = re.search(r'\*\*([^*]+\.jpg)\*\*\W+(.*)$', line)
         if m:
             alts[m.group(1).strip()] = m.group(2).strip()
     return alts
@@ -130,7 +130,7 @@ POST_SLUGS = [
     'lisbon-melting-pot-oct-2024', 'lisbon-move-apr-2025',
     'lisbon-first-week-apr-2025', 'warsaw-may-2025', 'japan-nov-2025',
     'singapore-nov-2025', 'sri-lanka-29-cities-jan-2026', 'obidos-may-2026',
-    'australia-aug-2026', 'lisbon-16-months-aug-2026',
+    'lisbon-16-months-aug-2026', 'australia-aug-2026',
 ]
 POST_TITLES = [
     'Coimbatore \u2014 tier-3 and tier-4 India',
@@ -147,8 +147,8 @@ POST_TITLES = [
     'Singapore \u2014 safety, trust and a city that works',
     'Sri Lanka \u2014 twenty-nine cities in 2025',
     '\u00d3bidos \u2014 a book town built to last',
-    'Australia \u2014 Sydney, sandstone and the Opera House',
     'Lisbon \u2014 sixteen months on',
+    'Australia \u2014 Sydney, sandstone and the Opera House',
 ]
 POST_PHOTOS = {
     'coimbatore-dec-2023': ['coimbatore-best-buy-dec-2023.jpg', 'coimbatore-new-apartments-dec-2023.jpg'],
@@ -333,9 +333,9 @@ def edit_index():
     card = ('<article class="card"><span class="tag">TRAVEL</span><h3>What the World Has Taught Me</h3>'
             '<p>Sixteen stops, three years, one lesson \u2014 a life of travel, done properly, is not a collection of places. It is an education.</p>'
             '<p><a class="btn btn-accent" href="/what-the-world-has-taught-me.html">Read the essay \u2192</a></p></article>')
-    marker = '<div class="beyond-grid">'
+    marker = '<section id="beyond"><div class="wrap"><h2>Beyond work</h2><div class="grid">'
     if idx.count(marker) != 1:
-        raise ValueError('beyond-grid marker count is %d' % idx.count(marker))
+        raise ValueError('beyond section marker count is %d' % idx.count(marker))
     if 'what-the-world-has-taught-me.html' in idx:
         raise ValueError('index already links the essay')
     new = idx.replace(marker, marker + card, 1)
