@@ -1,0 +1,22 @@
+name: Rename slim to restructured (one-off)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename index-slim.html to index-restructured.html
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git mv index-slim.html index-restructured.html
+          rm .github/workflows/rename-slim-to-restructured.yml
+          git add -A
+          git commit -m "Rename index-slim.html to index-restructured.html"
+          git push
