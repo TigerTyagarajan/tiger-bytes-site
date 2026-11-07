@@ -60,7 +60,7 @@ def load_alt_texts():
     alts = {}
     text = (ROOT / 'SELECTIONS.md').read_text(encoding='utf-8')
     for line in text.splitlines():
-        m = re.match(r'\s*-\s*\*\*([^*]+\.jpg)\*\*\s*\u2014\s*(.*)$', line)
+        m = re.match(r'\*\*([^*]+\.jpg)\*\*\W+(.*)$', line)
         if m:
             alts[m.group(1).strip()] = m.group(2).strip()
     return alts
@@ -183,7 +183,7 @@ STOP_TO_POST = {
     'Sri Lanka \u2014 January 2026': 'sri-lanka-29-cities-jan-2026',
     '\u00d3bidos \u2014 May 2026': 'obidos-may-2026',
     'Australia \u2014 August 2026': 'australia-aug-2026',
-    'Lisbon sixteen months on \u2014 August 2026': 'lisbon-16-months-aug-2026',
+    'Lisbon, sixteen months on \u2014 August 2026': 'lisbon-16-months-aug-2026',
 }
 CAPTIONS = {
     'Coimbatore \u2014 December 2023': 'Coimbatore \u2014 December 2023',
@@ -216,6 +216,10 @@ def parse_essay():
             continue
         if line.startswith('### '):
             cur = {'heading': line[4:].strip(), 'items': []}
+            sections.append(cur)
+            continue
+        if line.startswith('## '):
+            cur = {'heading': line[3:].strip(), 'items': []}
             sections.append(cur)
             continue
         if line.startswith('#'):
