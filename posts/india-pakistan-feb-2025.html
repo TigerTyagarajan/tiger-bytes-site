@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <title>India–Pakistan — 356 million streaming viewers — Tiger Bytes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --paper:#f8f5ee;
+        --paper-2:#fbf9f3;
+        --ink:#16283f;
+        --ink-soft:#4a5a72;
+        --navy-mid:#24466e;
+        --gold:#b08d4f;
+        --gold-soft:#d8c491;
+        --orange:#e8590c;
+        --serif:"Playfair Display", Georgia, "Times New Roman", serif;
+        --body-serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+        --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+      }
+      *{ box-sizing:border-box; }
+      html{ scroll-behavior:smooth; }
+      body{
+        margin:0;
+        background:var(--paper);
+        color:var(--ink);
+        font-family:var(--body-serif);
+        -webkit-font-smoothing:antialiased;
+      }
+      ::selection{ background:var(--gold-soft); }
+
+      .page{ max-width:1080px; margin:0 auto; padding:0 24px 0; }
+
+      /* ---------- Title block ---------- */
+      .masthead{ text-align:center; padding:72px 12px 8px; }
+      .kicker{
+        font-family:var(--sans); font-size:12.5px; font-weight:600;
+        letter-spacing:.34em; text-transform:uppercase; color:var(--gold);
+        margin:0 0 22px; text-indent:.34em;
+      }
+      h1{
+        font-family:var(--serif); font-weight:600;
+        font-size:clamp(44px, 7.2vw, 76px); line-height:1.04;
+        margin:0 0 26px; color:var(--ink); letter-spacing:.005em;
+      }
+      .standfirst{
+        font-family:var(--serif); font-style:italic; font-weight:500;
+        font-size:clamp(18.5px, 2.6vw, 23px); line-height:1.55;
+        color:var(--ink-soft); max-width:700px; margin:0 auto;
+      }
+      .rule{ width:120px; height:2px; background:var(--gold); margin:40px auto 0; border:0; }
+
+      /* ---------- Layer scaffolding ---------- */
+      .layer{ padding:64px 0 8px; }
+      .layer-head{ text-align:center; margin-bottom:14px; }
+      .layer-kicker{
+        font-family:var(--sans); font-size:11.5px; font-weight:600;
+        letter-spacing:.3em; text-transform:uppercase; color:var(--gold);
+        margin:0 0 12px; text-indent:.3em;
+      }
+      h2{
+        font-family:var(--serif); font-weight:600;
+        font-size:clamp(30px, 4.4vw, 42px); margin:0; color:var(--ink);
+      }
+      .layer-sub{
+        font-family:var(--serif); font-style:italic; font-size:18px;
+        color:var(--ink-soft); margin:12px auto 0; max-width:620px; line-height:1.5;
+      }
+
+      /* ---------- The compass ---------- */
+      .compass-wrap{
+        position:relative; width:min(840px, 100%);
+        margin:18px auto 0; aspect-ratio:1 / 1;
+      }
+      .compass-wrap svg{
+        position:absolute; left:50%; top:50%;
+        width:65%; height:65%;
+        transform:translate(-50%,-50%);
+        overflow:visible;
+      }
+      .cpoint{
+        position:absolute; width:23.5%;
+        font-family:var(--serif); font-weight:600;
+        font-size:clamp(12.5px, 2.15vw, 18.5px); line-height:1.28;
+        color:var(--ink); text-decoration:none;
+        transition:color .18s ease;
+      }
+      .cpoint .num{ color:var(--gold); margin-right:.18em; }
+      .cpoint:hover, .cpoint:focus-visible{ color:var(--orange); text-decoration:underline; text-underline-offset:4px; }
+      .cpoint:hover .num, .cpoint:focus-visible .num{ color:var(--orange); }
+      .cp-1{ top:0.5%; left:50%; transform:translateX(-50%); text-align:center; width:34%; }
+      .cp-4{ bottom:0.5%; left:50%; transform:translateX(-50%); text-align:center; width:34%; }
+      .cp-2{ top:19%; right:0; text-align:left; }
+      .cp-3{ bottom:19%; right:0; text-align:left; color:var(--orange); }
+      .cp-3 .num{ color:var(--orange); }
+      .cp-5{ bottom:19%; left:0; text-align:right; }
+      .cp-6{ top:19%; left:0; text-align:right; }
+      .compass-caption{
+        text-align:center; font-family:var(--serif); font-style:italic;
+        font-size:clamp(16px, 2.3vw, 19.5px); line-height:1.55; color:var(--ink-soft);
+        max-width:640px; margin:26px auto 0;
+      }
+      .compass-caption strong{ color:var(--orange); font-weight:600; font-style:normal; }
+      .compass-caption p{ margin:0; }
+      .compass-steps{
+        list-style:none; margin:18px auto 0; padding:0;
+        display:inline-block; text-align:left;
+        font-family:var(--serif); font-style:normal; font-weight:600;
+        font-size:clamp(16.5px, 2.3vw, 19px); color:var(--ink); line-height:1.5;
+      }
+      .compass-steps li{ margin:0 0 9px; }
+      .compass-steps li:last-child{ margin-bottom:0; }
+      .compass-steps li::before{ content:"✓"; color:var(--orange); font-weight:700; margin-right:.55em; }
+      .compass-steps li:nth-child(2){ margin-left:1.7em; }
+      .compass-steps li:nth-child(3){ margin-left:3.4em; }
+
+      /* ---------- Drill 1 panels ---------- */
+      .panels{ max-width:820px; margin:34px auto 0; }
+      .panel{
+        background:var(--paper-2);
+        border:1px solid #e7dfcd;
+        padding:38px 44px 34px;
+        margin:0 0 26px;
+        scroll-margin-top:28px;
+      }
+      .panel.flash{ outline:2px solid var(--orange); outline-offset:3px; }
+      .panel-head{ display:flex; align-items:baseline; gap:18px; margin-bottom:6px; }
+      .panel-num{
+        font-family:var(--serif); font-size:40px; font-weight:600;
+        color:var(--gold); line-height:1; flex:0 0 auto;
+      }
+      .panel.hot .panel-num{ color:var(--orange); }
+      h3{
+        font-family:var(--serif); font-weight:600;
+        font-size:clamp(23px, 3.4vw, 29px); line-height:1.2; margin:0; color:var(--ink);
+      }
+      .panel.hot h3{ color:var(--orange); }
+      .definition{
+        font-size:19.5px; line-height:1.55; color:var(--ink);
+        margin:10px 0 20px;
+      }
+      .mini-label{
+        font-family:var(--sans); font-size:11px; font-weight:700;
+        letter-spacing:.26em; text-transform:uppercase; color:var(--gold);
+        margin:0 0 7px;
+      }
+      .story{ font-size:17.5px; line-height:1.68; color:#2c3e57; margin:0 0 20px; }
+      .practice{
+        font-family:var(--serif); font-style:italic; font-size:18.5px;
+        line-height:1.5; color:var(--ink); margin:0;
+      }
+      .practice .mini-label{ font-style:normal; display:block; margin-bottom:5px; }
+
+      /* ---------- Drill 2 ---------- */
+      .spiral-panel{
+        max-width:820px; margin:34px auto 0;
+        display:flex; gap:40px; align-items:center;
+        background:var(--paper-2); border:1px solid #e7dfcd;
+        padding:36px 44px;
+      }
+      .spiral-panel svg{ flex:0 0 258px; width:258px; height:auto; }
+      .spiral-text p{ font-size:18px; line-height:1.68; color:#2c3e57; margin:0 0 14px; }
+      .spiral-text p:last-child{ margin-bottom:0; }
+      .spiral-text .lead{
+        font-family:var(--serif); font-size:21px; font-weight:600; color:var(--ink); line-height:1.4;
+      }
+      /* ---------- Beliefs ---------- */
+      .beliefs{ max-width:820px; margin:38px auto 0; text-align:center; }
+      .belief{
+        font-family:var(--serif); font-weight:600;
+        font-size:clamp(21px, 3vw, 27px); line-height:1.45; color:var(--ink);
+        margin:0; padding:27px 12px; border-top:1px solid #e7dfcd;
+      }
+      .belief:first-child{ border-top:0; padding-top:4px; }
+
+      /* ---------- References ---------- */
+      .refs{
+        list-style:none; max-width:820px; margin:34px auto 0; padding:0;
+      }
+      .refs li{
+        font-size:15.5px; line-height:1.65; color:#2c3e57;
+        padding-left:1.7em; text-indent:-1.7em; margin:0 0 11px;
+      }
+      .refs li:last-child{ margin-bottom:0; }
+
+      /* ---------- Essay ---------- */
+      .essay{ max-width:690px; margin:36px auto 0; }
+      .essay p{
+        font-size:19.5px; line-height:1.78; color:#22344e;
+        margin:0 0 26px;
+      }
+      .essay p:first-of-type::first-letter{
+        font-family:var(--serif); font-weight:700;
+        font-size:64px; line-height:.82;
+        float:left; padding:8px 12px 0 0; color:var(--gold);
+      }
+      .essay .closing{
+        font-family:var(--serif); font-style:italic; font-weight:600;
+        font-size:22px; color:var(--ink);
+      }
+
+      /* ---------- Footer ---------- */
+      footer{ text-align:center; padding:70px 0 64px; }
+      footer .rule{ margin:0 auto 26px; }
+      footer p{
+        font-family:var(--serif); font-style:italic; font-size:17.5px;
+        color:var(--ink-soft); margin:0;
+      }
+
+      @media (max-width:680px){
+        .page{ padding:0 16px; }
+        .masthead{ padding-top:52px; }
+        .compass-wrap{ aspect-ratio:1 / 1.12; }
+        .compass-wrap svg{ width:62%; height:62%; }
+        .cpoint{ width:27%; }
+        .cp-1,.cp-4{ width:44%; }
+        .cp-2,.cp-6{ top:15%; }
+        .cp-3,.cp-5{ bottom:15%; }
+        .panel{ padding:30px 24px 28px; }
+        .spiral-panel{ flex-direction:column; padding:30px 24px; gap:22px; }
+        .spiral-panel svg{ flex:none; width:230px; }
+        .essay p{ font-size:18.5px; }
+      }
+      @media (prefers-reduced-motion: reduce){
+        html{ scroll-behavior:auto; }
+      }
+    </style>
+  <style>
+.travel-photo{margin:28px 0 8px}
+.travel-photo img{width:100%;height:auto;display:block}
+.travel-photo figcaption{font-family:var(--sans);font-size:.82rem;color:#5f5f5f;letter-spacing:.05em;margin-top:10px}
+.post-link{margin-top:26px}
+.post-link a,.back-link a{color:#e8590c;font-weight:600;text-decoration:none}
+.post-link a:hover,.back-link a:hover{text-decoration:underline}
+</style></head>
+<body>
+<div class="page">
+<header class="masthead">
+<p style="font-size:.85rem;color:#5f5f5f;letter-spacing:.06em;margin:0 0 10px;">February 23, 2025</p>
+<p class="kicker">ORIGINALLY POSTED ON LINKEDIN</p>
+<h1>India–Pakistan — 356 million streaming viewers</h1>
+<div class="rule"></div>
+</header>
+<main>
+<section class="layer">
+<p>Nothing to beat the atmosphere of a cricket game between India and Pakistan … nothing comes even close !</p>
+<p>What struck me, is that today the match between the two teams a league game in Dubai at the Champions Trophy 2025 is being viewed by 356 Million people on the Jio Hotstar streaming platform. If this was a finals that would be 500 Million +</p>
+<p>That compares to 571 Million for the 2022 Qatar World Cup Football Finals and 186.2 Million for the 2024 Super Bowl …..</p>
+<p>It’s a total joy of emotions and passion to be able to watch this game and if one were to see it live in the stadium nothing can compare to that electrifying atmosphere ….. the joys of sports and cricket !!</p>
+<p>The top right hand corner of the screen shot shows viewers online !</p>
+<p class="back-link"><a href="/what-cricket-has-taught-me-about-leadership.html">← Back to: What Cricket Has Taught Me About Leadership</a></p>
+</section>
+</main>
+<footer><p style="text-align:center;font-size:.85rem;color:#5f5f5f;margin:36px 0 8px;">Originally posted on LinkedIn — preserved here on Tiger Bytes.</p></footer>
+</div>
+</body>
+</html>
