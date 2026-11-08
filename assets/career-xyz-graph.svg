@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" width="100%" height="auto" role="img" aria-label="A three-dimensional diagram of the career framework: X axis skills, Y axis culture, Z axis industry. Job A sits low in the space; Job B sits diagonally up and to the right, differing on all three axes." style="display:block;max-width:680px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+<defs>
+<marker id="xyzArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
+<marker id="xyzArrowO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+</defs>
+<!-- floor grid -->
+<g stroke="#e4e4e4" stroke-width="1">
+<line x1="250" y1="350" x2="94" y2="212"/><line x1="342" y1="350" x2="186" y2="212"/><line x1="434" y1="350" x2="278" y2="212"/><line x1="526" y1="350" x2="370" y2="212"/>
+<line x1="250" y1="350" x2="526" y2="350"/><line x1="198" y1="304" x2="474" y2="304"/><line x1="146" y1="258" x2="422" y2="258"/><line x1="94" y1="212" x2="370" y2="212"/>
+</g>
+<!-- back wall grid (Y = 3 plane) -->
+<g stroke="#eeeeee" stroke-width="1">
+<line x1="94" y1="212" x2="94" y2="25"/><line x1="186" y1="212" x2="186" y2="25"/><line x1="278" y1="212" x2="278" y2="25"/><line x1="370" y1="212" x2="370" y2="25"/>
+<line x1="94" y1="140" x2="370" y2="140"/><line x1="94" y1="68" x2="370" y2="68"/>
+</g>
+<!-- axes -->
+<g stroke="#333" stroke-width="2">
+<line x1="250" y1="350" x2="606" y2="350" marker-end="url(#xyzArrow)"/>
+<line x1="250" y1="350" x2="72" y2="192" marker-end="url(#xyzArrow)"/>
+<line x1="250" y1="350" x2="250" y2="122" marker-end="url(#xyzArrow)"/>
+</g>
+<!-- projection drops -->
+<g stroke="#c9c9c9" stroke-width="1" stroke-dasharray="4 4">
+<line x1="290" y1="224" x2="290" y2="304"/><line x1="464" y1="151" x2="464" y2="295"/>
+</g>
+<circle cx="290" cy="304" r="3" fill="#bbb"/><circle cx="464" cy="295" r="3" fill="#bbb"/>
+<!-- the move: all three axes change -->
+<line x1="300" y1="216" x2="452" y2="158" stroke="#e8590c" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#xyzArrowO)"/>
+<text x="345" y="165" text-anchor="middle" font-size="12.5" font-weight="600" fill="#e8590c">all three axes change</text>
+<!-- jobs -->
+<circle cx="290" cy="224" r="8" fill="#e8590c" stroke="#fff" stroke-width="2"/>
+<circle cx="464" cy="151" r="8" fill="#e8590c" stroke="#fff" stroke-width="2"/>
+<text x="290" y="202" text-anchor="middle" font-size="13" font-weight="700" fill="#222">JOB A</text>
+<text x="464" y="129" text-anchor="middle" font-size="13" font-weight="700" fill="#222">JOB B</text>
+<text x="290" y="248" text-anchor="middle" font-size="11" fill="#666">Finance skills</text>
+<text x="290" y="262" text-anchor="middle" font-size="11" fill="#666">US multinational · Banking</text>
+<text x="464" y="175" text-anchor="middle" font-size="11" fill="#666">Technology skills</text>
+<text x="464" y="189" text-anchor="middle" font-size="11" fill="#666">French mid-market · CPG</text>
+<!-- axis labels -->
+<text x="606" y="374" text-anchor="end" font-size="13.5" font-weight="700" fill="#222">X · SKILLS</text>
+<text x="606" y="391" text-anchor="end" font-size="11" fill="#666">finance · technology · marketing</text>
+<text x="82" y="150" text-anchor="middle" font-size="13.5" font-weight="700" fill="#222">Y · CULTURE</text>
+<text x="82" y="134" text-anchor="middle" font-size="11" fill="#666">geography · company type</text>
+<text x="82" y="120" text-anchor="middle" font-size="11" fill="#666">hierarchical vs consensus</text>
+<text x="264" y="100" font-size="13.5" font-weight="700" fill="#222">Z · INDUSTRY</text>
+<text x="264" y="116" font-size="11" fill="#666">financial services · insurance</text>
+<text x="264" y="130" font-size="11" fill="#666">healthcare · retail</text>
+</svg>
