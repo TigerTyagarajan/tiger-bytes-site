@@ -55,14 +55,17 @@ jobs:
               'writing-everymodel': '<a class="card-visual" href="every-model-begins-with-a-prior.html" aria-label="Open Every Model Begins with a Prior"><img src="assets/every-model-deck-state-your-prior.png" alt="Every Model Begins with a Prior deck - State your prior: the lesson of the drawer" loading="lazy"></a>',
               'writing-career': '<a class="card-visual contain" href="career-framework.html" aria-label="Open The Art and Science of Building a Career"><img src="assets/career-xyz-graph.svg" alt="The career framework as a three-dimensional graph: X skills, Y culture, Z industry, with Job A and Job B" loading="lazy"></a>',
           }
-          def move_card(cls, tag, heading, label):
+          def move_card(cls, tag, heading, label, anchor=''):
               global html
-              art = r'(<article\b[^>]*class="[^"]*' + cls + r'[^"]*"[^>]*>)'
+              art = r'(<article\b[^>]*class="[^"]*' + cls + r'[^"]*"[^>]*' + anchor + r'[^>]*>)'
               outer = r'(<a\b(?![^>]*class="card-visual")[^>]*>)?'
               visual = r'(<a class="card-visual[^"]*"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)'
               mid = r'(<span class="tag">' + re.escape(tag) + r'</span><h3>' + re.escape(heading) + r'</h3>)'
               pat = re.compile(art + outer + r'\s*' + visual + r'\s*' + mid, re.S)
               ms = list(pat.finditer(html))
+              if len(ms) != 1:
+                  for mo2 in ms:
+                      print('MATCH', label, repr(html[max(0, mo2.start()-100):mo2.start() + 120]))
               assert len(ms) == 1, label + ': matched ' + str(len(ms))
               mo = ms[0]
               vis = new_visual.get(label, mo.group(3))
@@ -73,7 +76,7 @@ jobs:
           move_card('card', 'FRAMEWORK HUB', 'Leadership in the Age of AI', 'hub-leadership-ai')
           move_card('card', 'PODCAST', 'Update Your Priors', 'hub-podcast')
           move_card('card', 'FRAMEWORK', 'Leading with Curiosity', 'framework-leading')
-          move_card('essay-featured', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', 'framework-career')
+          move_card('essay-featured', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', 'framework-career', r'id="career-framework"')
           move_card('card', 'KEYNOTE DECK · RECODE AMSTERDAM', 'Building the AI Blueprint for the Next Decade — the deck', 'deck-recode')
           move_card('card', 'PRESENTATION', 'The Mathematics Singularity', 'deck-mathematics')
           move_card('card', 'PRESENTATION', 'Every Model Begins with a Prior', 'deck-everymodel')
