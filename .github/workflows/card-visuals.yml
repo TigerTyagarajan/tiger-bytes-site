@@ -61,28 +61,34 @@ jobs:
           html = Path('index.html').read_text(encoding='utf-8')
           def thumb(cls, href, img, alt, aria):
               return '<a class="' + cls + '" href="' + href + '" aria-label="' + aria + '"><img src="assets/' + img + '" alt="' + alt + '" loading="lazy"></a>'
-          def insert_after(anchor, snippet, label):
+          def insert_card(cls, tag, heading, snippet, label):
               global html
-              n = html.count(anchor)
-              assert n == 1, label + ': anchor found ' + str(n) + ' times'
-              assert snippet not in html, label + ': already inserted'
-              html = html.replace(anchor, anchor + snippet, 1)
+              art = r'(<article\b[^>]*class="[^"]*' + cls + r'[^"]*"[^>]*>)'
+              if tag is None:
+                  mid = r'\s*(<h3>' + re.escape(heading) + r'</h3>)'
+              else:
+                  mid = r'\s*(<span class="tag">' + re.escape(tag) + r'</span>\s*<h3>' + re.escape(heading) + r'</h3>)'
+              pat = re.compile(art + mid, re.S)
+              ms = list(pat.finditer(html))
+              assert len(ms) == 1, label + ': matched ' + str(len(ms))
+              mo = ms[0]
+              html = html[:mo.end(1)] + snippet + html[mo.end(1):]
               print('inserted', label)
           assert html.count('</style>') == 1, 'style close count wrong'
           html = html.replace('</style>', '.thumb.contain img{object-fit:contain;background:#fffdf8}</style>', 1)
-          insert_after('<article class="card hub hub-curiosity"><h3>The Curiosity Hub</h3>', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'hub-curiosity')
-          insert_after('<article class="card hub hub-lead"><h3>Leadership in the Age of AI</h3>', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'hub-leadership-ai')
-          insert_after('<article class="card hub hub-podcast"><h3>Update Your Priors</h3>', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'hub-podcast')
-          insert_after('<article class="card framework"><span class="tag">FRAMEWORK</span><h3>Leading with Curiosity</h3>', thumb('thumb contain', 'leading-with-curiosity.html', 'curiosity-compass.svg', 'Curiosity compass - the six elements of the framework around a Bayesian loop', 'Open Leading with Curiosity'), 'framework-leading')
-          insert_after('<article class="card framework career-card"><span class="tag">FRAMEWORK</span><h3>The Art &amp; Science of Building a Career</h3>', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'framework-career')
-          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>Building the AI Blueprint for the Next Decade</h3>', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'deck-recode')
-          insert_after('<article class="card deck presentation-card"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>The Mathematics Singularity</h3>', thumb('thumb', 'the-mathematics-singularity.pdf', 'mathematics-singularity-cover.png', 'The Mathematics Singularity deck - first slide', 'Open The Mathematics Singularity deck'), 'deck-mathematics')
-          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>Every Model Begins with a Prior</h3>', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'deck-everymodel')
-          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>The Curiosity Engine</h3>', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'deck-engine')
-          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>Curiosity: The Strategic Advantage</h3>', thumb('thumb', 'curiosity-the-strategic-advantage.pdf', 'curiosity-strategic-advantage-cover.png', 'Curiosity is the Strategic Advantage deck - first slide', 'Open the Curiosity is the Strategic Advantage deck'), 'deck-strategic')
-          insert_after('<article class="card"><h3>Every Model Begins with a Prior</h3>', thumb('thumb', 'every-model-begins-with-a-prior.html', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open Every Model Begins with a Prior'), 'writing-everymodel')
-          insert_after('<article class="card"><span class="tag">FRAMEWORK \u00b7 ESSAY</span><h3>The Art &amp; Science of Building a Career</h3>', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'writing-career')
-          insert_after('<article class="card"><h3>What the World Has Taught Me</h3>', thumb('thumb', 'what-the-world-has-taught-me.html', '29-cities-2025-collage.jpg', '2025 travels - twenty-nine cities', 'Open What the World Has Taught Me'), 'beyond-world')
+          insert_card('hub-curiosity', None, 'The Curiosity Hub', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'hub-curiosity')
+          insert_card('hub-lead', None, 'Leadership in the Age of AI', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'hub-leadership-ai')
+          insert_card('hub-podcast', None, 'Update Your Priors', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'hub-podcast')
+          insert_card('framework', 'FRAMEWORK', 'Leading with Curiosity', thumb('thumb contain', 'leading-with-curiosity.html', 'curiosity-compass.svg', 'Curiosity compass - the six elements of the framework around a Bayesian loop', 'Open Leading with Curiosity'), 'framework-leading')
+          insert_card('career-card', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'framework-career')
+          insert_card('deck', 'PRESENTATION · DECK', 'Building the AI Blueprint for the Next Decade', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'deck-recode')
+          insert_card('deck', 'PRESENTATION · DECK', 'The Mathematics Singularity', thumb('thumb', 'the-mathematics-singularity.pdf', 'mathematics-singularity-cover.png', 'The Mathematics Singularity deck - first slide', 'Open The Mathematics Singularity deck'), 'deck-mathematics')
+          insert_card('deck', 'PRESENTATION · DECK', 'Every Model Begins with a Prior', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'deck-everymodel')
+          insert_card('deck', 'PRESENTATION · DECK', 'The Curiosity Engine', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'deck-engine')
+          insert_card('deck', 'PRESENTATION · DECK', 'Curiosity: The Strategic Advantage', thumb('thumb', 'curiosity-the-strategic-advantage.pdf', 'curiosity-strategic-advantage-cover.png', 'Curiosity is the Strategic Advantage deck - first slide', 'Open the Curiosity is the Strategic Advantage deck'), 'deck-strategic')
+          insert_card('card', None, 'Every Model Begins with a Prior', thumb('thumb', 'every-model-begins-with-a-prior.html', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open Every Model Begins with a Prior'), 'writing-everymodel')
+          insert_card('card', 'FRAMEWORK · ESSAY', 'The Art &amp; Science of Building a Career', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'writing-career')
+          insert_card('card', None, 'What the World Has Taught Me', thumb('thumb', 'what-the-world-has-taught-me.html', '29-cities-2025-collage.jpg', '2025 travels - twenty-nine cities', 'Open What the World Has Taught Me'), 'beyond-world')
           assert 'data:image' not in html, 'inlined image found in patched index.html'
           for img in ['curiosity-engine-cover.png', 'recode-keynote-deck-cover.png', 'every-model-deck-cover.png', 'mathematics-singularity-cover.png', 'curiosity-strategic-advantage-cover.png', 'curiosity-compass.svg', 'career-sardertv-thumb.jpg', '29-cities-2025-collage.jpg']:
               assert Path('assets/' + img).exists(), 'missing referenced image ' + img
