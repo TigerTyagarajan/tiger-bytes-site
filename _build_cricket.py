@@ -330,7 +330,7 @@ def edit_index():
             '<img src="assets/lords-panorama-2026-07-10.jpg" alt="Lord\'s Cricket Ground panorama, July 10, 2026" loading="lazy"></a>'
             '<p>' + esc_text(ESSAY_DESC) + '</p>'
             '<p><a class="btn btn-accent" href="/what-cricket-has-taught-me-about-leadership.html">Read the essay ' + ARROW_R + '</a></p></article>')
-    new = old.replace(anchor, anchor + '\n' + card, 1)
+    new = old.replace(anchor, anchor + card, 1)
     assert new.replace(card, '', 1) == old, 'index diff is not exactly the one card insertion'
     path.write_text(new, encoding='utf-8')
     print('index.html: %d -> %d bytes (one card inserted)' % (len(old), len(new)))
