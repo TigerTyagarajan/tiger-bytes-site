@@ -59,7 +59,7 @@ jobs:
               global html
               art = r'(<article\b[^>]*class="[^"]*' + cls + r'[^"]*"[^>]*>)'
               outer = r'(<a\b(?![^>]*class="card-visual")[^>]*>)?'
-              visual = r'(<a class="card-visual"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)'
+              visual = r'(<a class="card-visual[^"]*"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)'
               mid = r'(<span class="tag">' + re.escape(tag) + r'</span><h3>' + re.escape(heading) + r'</h3>)'
               pat = re.compile(art + outer + r'\s*' + visual + r'\s*' + mid, re.S)
               ms = list(pat.finditer(html))
@@ -85,11 +85,11 @@ jobs:
           # 4. Verify: order, counts, uniqueness, no inlined images, nothing else moved.
           assert html.count('<article') == orig_articles, 'article count changed'
           assert html.count('<h3>') == orig_h3, 'h3 count changed'
-          assert len(re.findall(r'<a class="card-visual"[^>]*>.*?</a>\s*<span class="tag">', html, re.S)) == 0, 'a visual still precedes a tag'
+          assert len(re.findall(r'<a class="card-visual[^"]*"[^>]*>.*?</a>\s*<span class="tag">', html, re.S)) == 0, 'a visual still precedes a tag'
           assert len(re.findall(r'<span class="card-visual">.*?</span>\s*<span class="tag">', html, re.S)) == 0, 'strategic visual still precedes a tag'
           assert len(re.findall(r'</h3><a class="card-visual"', html)) == 12, 'visuals after headings (a) wrong'
           assert len(re.findall(r'</h3><span class="card-visual">', html)) == 1, 'visuals after headings (span) wrong'
-          assert len(re.findall(r'(?:<a class="card-visual"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)<p', html, re.S)) == 13, 'visuals before a paragraph wrong'
+          assert len(re.findall(r'(?:<a class="card-visual[^"]*"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)<p', html, re.S)) == 13, 'visuals before a paragraph wrong'
           assert html.count('class="card-visual"') == 11, 'plain card-visual count wrong: ' + str(html.count('class="card-visual"'))
           assert html.count('class="card-visual contain"') == 2, 'contain card-visual count wrong: ' + str(html.count('class="card-visual contain"'))
           srcs = re.findall(r'class="card-visual[^"]*"[^>]*><img src="assets/([^"]+)"', html)
