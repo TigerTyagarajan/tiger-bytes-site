@@ -57,44 +57,51 @@ jobs:
           assert raw[:2] == b'\xff\xd8', 'decoded thumbnail is not a JPEG'
           Path('assets/career-sardertv-thumb.jpg').write_bytes(raw)
           print('career thumb', len(raw), 'bytes')
-          # 4. Patch index.html: add one Talks-style visual to each card that has a visual of its own.
+          # 4. Patch index.html: one 16/9 visual (the Talks video-facade treatment) at the top
+          #    of each card that has a visual of its own, linked to that card's destination.
           html = Path('index.html').read_text(encoding='utf-8')
+          css = '.card-visual{display:block;aspect-ratio:16/9;overflow:hidden;border-radius:6px;border:1px solid var(--line);margin-bottom:12px;background:#f3ead9}.card-visual img{width:100%;height:100%;object-fit:cover;display:block}.card-visual.contain img{object-fit:contain;background:#fffdf8}'
+          assert html.count('</style>') == 1, 'style close count wrong'
+          html = html.replace('</style>', css + '</style>', 1)
           def thumb(cls, href, img, alt, aria):
               return '<a class="' + cls + '" href="' + href + '" aria-label="' + aria + '"><img src="assets/' + img + '" alt="' + alt + '" loading="lazy"></a>'
           def insert_card(cls, tag, heading, snippet, label):
               global html
               art = r'(<article\b[^>]*class="[^"]*' + cls + r'[^"]*"[^>]*>)'
-              if tag is None:
-                  mid = r'\s*(<h3>' + re.escape(heading) + r'</h3>)'
-              else:
-                  mid = r'\s*(<span class="tag">' + re.escape(tag) + r'</span>\s*<h3>' + re.escape(heading) + r'</h3>)'
+              mid = r'\s*(<span class="tag">' + re.escape(tag) + r'</span>\s*<h3>' + re.escape(heading) + r'</h3>)'
               pat = re.compile(art + mid, re.S)
               ms = list(pat.finditer(html))
               assert len(ms) == 1, label + ': matched ' + str(len(ms))
               mo = ms[0]
               html = html[:mo.end(1)] + snippet + html[mo.end(1):]
               print('inserted', label)
-          assert html.count('</style>') == 1, 'style close count wrong'
-          html = html.replace('</style>', '.thumb.contain img{object-fit:contain;background:#fffdf8}</style>', 1)
-          insert_card('hub-curiosity', None, 'The Curiosity Hub', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'hub-curiosity')
-          insert_card('hub-lead', None, 'Leadership in the Age of AI', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'hub-leadership-ai')
-          insert_card('hub-podcast', None, 'Update Your Priors', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'hub-podcast')
-          insert_card('framework', 'FRAMEWORK', 'Leading with Curiosity', thumb('thumb contain', 'leading-with-curiosity.html', 'curiosity-compass.svg', 'Curiosity compass - the six elements of the framework around a Bayesian loop', 'Open Leading with Curiosity'), 'framework-leading')
-          insert_card('career-card', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'framework-career')
-          insert_card('deck', 'PRESENTATION · DECK', 'Building the AI Blueprint for the Next Decade', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'deck-recode')
-          insert_card('deck', 'PRESENTATION · DECK', 'The Mathematics Singularity', thumb('thumb', 'the-mathematics-singularity.pdf', 'mathematics-singularity-cover.png', 'The Mathematics Singularity deck - first slide', 'Open The Mathematics Singularity deck'), 'deck-mathematics')
-          insert_card('deck', 'PRESENTATION · DECK', 'Every Model Begins with a Prior', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'deck-everymodel')
-          insert_card('deck', 'PRESENTATION · DECK', 'The Curiosity Engine', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'deck-engine')
-          insert_card('deck', 'PRESENTATION · DECK', 'Curiosity: The Strategic Advantage', thumb('thumb', 'curiosity-the-strategic-advantage.pdf', 'curiosity-strategic-advantage-cover.png', 'Curiosity is the Strategic Advantage deck - first slide', 'Open the Curiosity is the Strategic Advantage deck'), 'deck-strategic')
-          insert_card('card', None, 'Every Model Begins with a Prior', thumb('thumb', 'every-model-begins-with-a-prior.html', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open Every Model Begins with a Prior'), 'writing-everymodel')
-          insert_card('card', 'FRAMEWORK · ESSAY', 'The Art &amp; Science of Building a Career', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'writing-career')
-          insert_card('card', None, 'What the World Has Taught Me', thumb('thumb', 'what-the-world-has-taught-me.html', '29-cities-2025-collage.jpg', '2025 travels - twenty-nine cities', 'Open What the World Has Taught Me'), 'beyond-world')
+          insert_card('card', 'BOOK IN PROGRESS', 'The Curiosity Hub', thumb('card-visual', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'hub-curiosity')
+          insert_card('card', 'FRAMEWORK HUB', 'Leadership in the Age of AI', thumb('card-visual', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'hub-leadership-ai')
+          insert_card('card', 'PODCAST', 'Update Your Priors', thumb('card-visual', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'hub-podcast')
+          insert_card('card', 'FRAMEWORK', 'Leading with Curiosity', thumb('card-visual contain', 'leading-with-curiosity.html', 'curiosity-compass.svg', 'Curiosity compass - the six elements of the framework around a Bayesian loop', 'Open Leading with Curiosity'), 'framework-leading')
+          insert_card('essay-featured', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', thumb('card-visual', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'framework-career')
+          insert_card('card', 'KEYNOTE DECK · RECODE AMSTERDAM', 'Building the AI Blueprint for the Next Decade — the deck', thumb('card-visual', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'deck-recode')
+          insert_card('card', 'PRESENTATION', 'The Mathematics Singularity', thumb('card-visual', 'the-mathematics-singularity.pdf', 'mathematics-singularity-cover.png', 'The Mathematics Singularity deck - first slide', 'Open The Mathematics Singularity deck'), 'deck-mathematics')
+          insert_card('card', 'PRESENTATION', 'Every Model Begins with a Prior', thumb('card-visual', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'deck-everymodel')
+          insert_card('card', 'PRESENTATION', 'The Curiosity Engine', thumb('card-visual', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'deck-engine')
+          insert_card('essay-featured', 'FEATURED ESSAY', 'Every Model Begins with a Prior', thumb('card-visual', 'every-model-begins-with-a-prior.html', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open Every Model Begins with a Prior'), 'writing-everymodel')
+          insert_card('card', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', thumb('card-visual', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'writing-career')
+          insert_card('card', 'TRAVEL', 'What the World Has Taught Me', thumb('card-visual', 'what-the-world-has-taught-me.html', '29-cities-2025-collage.jpg', '2025 travels - twenty-nine cities', 'Open What the World Has Taught Me'), 'beyond-world')
+          strat_pat = re.compile(r'(<article\b[^>]*>\s*<a\b[^>]*href="https://tigertyagarajan\.com/curiosity-the-strategic-advantage\.pdf"[^>]*>)', re.S)
+          strat = list(strat_pat.finditer(html))
+          assert len(strat) == 1, 'deck-strategic: matched ' + str(len(strat))
+          span = '<span class="card-visual"><img src="assets/curiosity-strategic-advantage-cover.png" alt="Curiosity is the Strategic Advantage deck - first slide" loading="lazy"></span>'
+          assert span not in html, 'deck-strategic: already inserted'
+          sm2 = strat[0]
+          html = html[:sm2.end(1)] + span + html[sm2.end(1):]
+          print('inserted deck-strategic')
           assert 'data:image' not in html, 'inlined image found in patched index.html'
+          assert 'class="thumb"' not in html, 'unexpected thumb class'
           for img in ['curiosity-engine-cover.png', 'recode-keynote-deck-cover.png', 'every-model-deck-cover.png', 'mathematics-singularity-cover.png', 'curiosity-strategic-advantage-cover.png', 'curiosity-compass.svg', 'career-sardertv-thumb.jpg', '29-cities-2025-collage.jpg']:
               assert Path('assets/' + img).exists(), 'missing referenced image ' + img
               assert Path('assets/' + img).stat().st_size > 1000, 'image too small ' + img
-          assert html.count('class="thumb"') == 12, 'plain thumb count wrong'
-          assert html.count('class="thumb contain"') == 1, 'contain thumb count wrong'
+          assert html.count('class="card-visual"') == 12, 'plain card-visual count wrong: ' + str(html.count('class="card-visual"'))
+          assert html.count('class="card-visual contain"') == 1, 'contain card-visual count wrong'
           Path('index.html').write_text(html, encoding='utf-8')
           print('patched index.html,', len(html), 'chars')
           PY
