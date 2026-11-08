@@ -1,0 +1,117 @@
+name: Move card visuals below titles and de-duplicate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  visuals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poppler
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Generate replacement slides and patch index.html
+        run: |
+          python3 - <<'PY'
+          import re
+          import subprocess
+          from pathlib import Path
+          # 1. Interior slides: one distinct page from each deck, as standalone PNGs in assets/
+          slides = [
+              ('recode-keynote-deck.pdf', 28, 'recode-keynote-leadership-ai-era', 'recode-keynote-leadership-ai-era.png'),
+              ('the-curiosity-engine.pdf', 16, 'curiosity-engine-seven-cs', 'curiosity-engine-seven-cs.png'),
+              ('every-model-begins-with-a-prior-deck.pdf', 6, 'every-model-deck-bayes-equation', 'every-model-deck-bayes-equation.png'),
+              ('every-model-begins-with-a-prior-deck.pdf', 20, 'every-model-deck-state-your-prior', 'every-model-deck-state-your-prior.png'),
+          ]
+          for pdf, page, prefix, out in slides:
+              assert Path(pdf).exists(), pdf + ' missing'
+              subprocess.run(['pdftoppm', '-png', '-f', str(page), '-l', str(page), '-r', '140', pdf, 'assets/' + prefix], check=True)
+              produced = list(Path('assets').glob(prefix + '-*.png'))
+              assert len(produced) == 1, 'pdftoppm produced ' + str(len(produced)) + ' files for ' + prefix
+              produced[0].rename(Path('assets') / out)
+              print('slide', out, Path('assets/' + out).stat().st_size, 'bytes')
+          # 2. X-Y-Z three-axis graph from career-framework.html -> standalone SVG in assets/
+          career = Path('career-framework.html').read_text(encoding='utf-8')
+          m = re.search(r'<svg viewBox="0 0 680 470".*?</svg>', career, re.S)
+          assert m, 'xyz svg not found'
+          assert 'JOB A' in m.group(0) and 'JOB B' in m.group(0), 'xyz svg missing JOB A/B'
+          svg = m.group(0)
+          if 'xmlns=' not in svg.split('>', 1)[0]:
+              svg = svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ', 1)
+          Path('assets/career-xyz-graph.svg').write_text(svg, encoding='utf-8')
+          print('xyz graph', len(svg), 'chars')
+          # 3. Patch index.html: move each .card-visual to directly after its card heading,
+          #    before the first paragraph; swap in the de-duplicated visuals above.
+          html = Path('index.html').read_text(encoding='utf-8')
+          orig_articles = html.count('<article')
+          orig_h3 = html.count('<h3>')
+          new_visual = {
+              'hub-leadership-ai': '<a class="card-visual" href="recode-keynote-deck.pdf" aria-label="Open the Recode keynote deck"><img src="assets/recode-keynote-leadership-ai-era.png" alt="Recode keynote deck - Leadership in the AI Era slide: a compass on a stone plinth" loading="lazy"></a>',
+              'hub-curiosity': '<a class="card-visual" href="the-curiosity-engine.pdf" aria-label="Open The Curiosity Engine deck"><img src="assets/curiosity-engine-seven-cs.png" alt="The Curiosity Engine deck - The 7 Cs of the Curiosity Engine" loading="lazy"></a>',
+              'hub-podcast': '<a class="card-visual" href="every-model-begins-with-a-prior-deck.pdf" aria-label="Open the Every Model Begins with a Prior deck"><img src="assets/every-model-deck-bayes-equation.png" alt="Every Model Begins with a Prior deck - One equation for changing your mind: Bayes theorem" loading="lazy"></a>',
+              'writing-everymodel': '<a class="card-visual" href="every-model-begins-with-a-prior.html" aria-label="Open Every Model Begins with a Prior"><img src="assets/every-model-deck-state-your-prior.png" alt="Every Model Begins with a Prior deck - State your prior: the lesson of the drawer" loading="lazy"></a>',
+              'writing-career': '<a class="card-visual contain" href="career-framework.html" aria-label="Open The Art and Science of Building a Career"><img src="assets/career-xyz-graph.svg" alt="The career framework as a three-dimensional graph: X skills, Y culture, Z industry, with Job A and Job B" loading="lazy"></a>',
+          }
+          def move_card(cls, tag, heading, label):
+              global html
+              art = r'(<article\b[^>]*class="[^"]*' + cls + r'[^"]*"[^>]*>)'
+              outer = r'(<a\b(?![^>]*class="card-visual")[^>]*>)?'
+              visual = r'(<a class="card-visual"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)'
+              mid = r'(<span class="tag">' + re.escape(tag) + r'</span><h3>' + re.escape(heading) + r'</h3>)'
+              pat = re.compile(art + outer + r'\s*' + visual + r'\s*' + mid, re.S)
+              ms = list(pat.finditer(html))
+              assert len(ms) == 1, label + ': matched ' + str(len(ms))
+              mo = ms[0]
+              vis = new_visual.get(label, mo.group(3))
+              replacement = mo.group(1) + (mo.group(2) or '') + mo.group(4) + vis
+              html = html[:mo.start()] + replacement + html[mo.end():]
+              print('moved', label)
+          move_card('card', 'BOOK IN PROGRESS', 'The Curiosity Hub', 'hub-curiosity')
+          move_card('card', 'FRAMEWORK HUB', 'Leadership in the Age of AI', 'hub-leadership-ai')
+          move_card('card', 'PODCAST', 'Update Your Priors', 'hub-podcast')
+          move_card('card', 'FRAMEWORK', 'Leading with Curiosity', 'framework-leading')
+          move_card('essay-featured', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', 'framework-career')
+          move_card('card', 'KEYNOTE DECK · RECODE AMSTERDAM', 'Building the AI Blueprint for the Next Decade — the deck', 'deck-recode')
+          move_card('card', 'PRESENTATION', 'The Mathematics Singularity', 'deck-mathematics')
+          move_card('card', 'PRESENTATION', 'Every Model Begins with a Prior', 'deck-everymodel')
+          move_card('card', 'PRESENTATION', 'The Curiosity Engine', 'deck-engine')
+          move_card('essay-featured', 'FEATURED ESSAY', 'Every Model Begins with a Prior', 'writing-everymodel')
+          move_card('card', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', 'writing-career')
+          move_card('card', 'TRAVEL', 'What the World Has Taught Me', 'beyond-world')
+          move_card('card', 'TALK DECK', 'Curiosity: The Strategic Advantage', 'deck-strategic')
+          # 4. Verify: order, counts, uniqueness, no inlined images, nothing else moved.
+          assert html.count('<article') == orig_articles, 'article count changed'
+          assert html.count('<h3>') == orig_h3, 'h3 count changed'
+          assert len(re.findall(r'<a class="card-visual"[^>]*>.*?</a>\s*<span class="tag">', html, re.S)) == 0, 'a visual still precedes a tag'
+          assert len(re.findall(r'<span class="card-visual">.*?</span>\s*<span class="tag">', html, re.S)) == 0, 'strategic visual still precedes a tag'
+          assert len(re.findall(r'</h3><a class="card-visual"', html)) == 12, 'visuals after headings (a) wrong'
+          assert len(re.findall(r'</h3><span class="card-visual">', html)) == 1, 'visuals after headings (span) wrong'
+          assert len(re.findall(r'(?:<a class="card-visual"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)<p', html, re.S)) == 13, 'visuals before a paragraph wrong'
+          assert html.count('class="card-visual"') == 11, 'plain card-visual count wrong: ' + str(html.count('class="card-visual"'))
+          assert html.count('class="card-visual contain"') == 2, 'contain card-visual count wrong: ' + str(html.count('class="card-visual contain"'))
+          srcs = re.findall(r'class="card-visual[^"]*"[^>]*><img src="assets/([^"]+)"', html)
+          assert len(srcs) == 13, 'card-visual image count wrong: ' + str(len(srcs))
+          assert len(set(srcs)) == 13, 'card-visual images are not unique: ' + str(sorted(srcs))
+          for src in srcs:
+              p = Path('assets') / src
+              assert p.exists(), 'missing referenced image ' + src
+              assert p.stat().st_size > 1000, 'image too small ' + src
+          assert 'data:image' not in html, 'inlined image found in patched index.html'
+          for src in sorted(srcs):
+              print('visual', src)
+          Path('index.html').write_text(html, encoding='utf-8')
+          print('patched index.html,', len(html), 'chars')
+          PY
+      - name: Commit and self-delete
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/card-visuals-title-first.yml
+          git add -A
+          git status --short
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Move card visuals below their titles and de-duplicate repeated visuals"
+          git push
