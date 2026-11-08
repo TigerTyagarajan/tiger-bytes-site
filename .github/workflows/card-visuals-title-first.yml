@@ -85,7 +85,7 @@ jobs:
           move_card('card', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', 'writing-career')
           move_card('card', 'TRAVEL', 'What the World Has Taught Me', 'beyond-world')
           move_card('card', 'TALK DECK', 'Curiosity: The Strategic Advantage', 'deck-strategic')
-          print('verify after-a', len(re.findall(r'</h3><a class="card-visual"', html)))
+          print('verify after-a', len(re.findall(r'</h3><a class="card-visual[^"]*"', html)))
           print('verify after-span', len(re.findall(r'</h3><span class="card-visual">', html)))
           print('verify before-p', len(re.findall(r'(?:<a class="card-visual[^"]*"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)<p', html, re.S)))
           print('verify plain', html.count('class="card-visual"'))
@@ -98,7 +98,7 @@ jobs:
           assert html.count('<h3>') == orig_h3, 'h3 count changed'
           assert len(re.findall(r'<a class="card-visual[^"]*"[^>]*>.*?</a>\s*<span class="tag">', html, re.S)) == 0, 'a visual still precedes a tag'
           assert len(re.findall(r'<span class="card-visual">.*?</span>\s*<span class="tag">', html, re.S)) == 0, 'strategic visual still precedes a tag'
-          assert len(re.findall(r'</h3><a class="card-visual"', html)) == 12, 'visuals after headings (a) wrong'
+          assert len(re.findall(r'</h3><a class="card-visual[^"]*"', html)) == 12, 'visuals after headings (a) wrong'
           assert len(re.findall(r'</h3><span class="card-visual">', html)) == 1, 'visuals after headings (span) wrong'
           assert len(re.findall(r'(?:<a class="card-visual[^"]*"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)<p', html, re.S)) == 13, 'visuals before a paragraph wrong'
           assert html.count('class="card-visual"') == 11, 'plain card-visual count wrong: ' + str(html.count('class="card-visual"'))
