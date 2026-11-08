@@ -1,0 +1,104 @@
+name: Add card visuals
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  visuals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poppler
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Generate cover images and patch index.html
+        run: |
+          python3 - <<'PY'
+          import base64
+          import re
+          import subprocess
+          from pathlib import Path
+          root = Path('.')
+          # 1. First slide of each deck PDF -> a standalone PNG in assets/
+          decks = {
+              'recode-keynote-deck': 'recode-keynote-deck-cover.png',
+              'the-mathematics-singularity': 'mathematics-singularity-cover.png',
+              'every-model-begins-with-a-prior-deck': 'every-model-deck-cover.png',
+              'the-curiosity-engine': 'curiosity-engine-cover.png',
+              'curiosity-the-strategic-advantage': 'curiosity-strategic-advantage-cover.png',
+          }
+          for stem, out in decks.items():
+              assert Path(stem + '.pdf').exists(), stem + '.pdf missing'
+              subprocess.run(['pdftoppm', '-png', '-f', '1', '-l', '1', '-r', '140', stem + '.pdf', 'assets/' + stem + '-cover'], check=True)
+              produced = Path('assets/' + stem + '-cover-1.png')
+              assert produced.exists(), 'pdftoppm produced no file for ' + stem
+              produced.rename(Path('assets') / out)
+              print('cover', out, Path('assets/' + out).stat().st_size, 'bytes')
+          # 2. Compass graphic from leading-with-curiosity.html -> standalone SVG in assets/
+          lead = Path('leading-with-curiosity.html').read_text(encoding='utf-8')
+          m = re.search(r'<svg viewBox="0 0 640 640".*?</svg>', lead, re.S)
+          assert m, 'compass svg not found'
+          svg = m.group(0)
+          style = re.search(r'<style>(.*?)</style>', lead, re.S).group(1)
+          if 'xmlns=' not in svg.split('>', 1)[0]:
+              svg = svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ', 1)
+          head, rest = svg.split('>', 1)
+          svg = head + '><style><![CDATA[' + style + ']]></style>' + rest
+          Path('assets/curiosity-compass.svg').write_text(svg, encoding='utf-8')
+          print('compass', len(svg), 'chars')
+          # 3. SarderTV video thumbnail from career-framework.html -> standalone JPEG in assets/
+          career = Path('career-framework.html').read_text(encoding='utf-8')
+          sm = re.search(r'src="data:image/jpeg;base64,([^"]+)"', career, re.S)
+          assert sm, 'no base64 jpeg in career-framework.html'
+          raw = base64.b64decode(re.sub(r'\s+', '', sm.group(1)))
+          assert raw[:2] == b'\xff\xd8', 'decoded thumbnail is not a JPEG'
+          Path('assets/career-sardertv-thumb.jpg').write_bytes(raw)
+          print('career thumb', len(raw), 'bytes')
+          # 4. Patch index.html: add one Talks-style visual to each card that has a visual of its own.
+          html = Path('index.html').read_text(encoding='utf-8')
+          def thumb(cls, href, img, alt, aria):
+              return '<a class="' + cls + '" href="' + href + '" aria-label="' + aria + '"><img src="assets/' + img + '" alt="' + alt + '" loading="lazy"></a>'
+          def insert_after(anchor, snippet, label):
+              global html
+              n = html.count(anchor)
+              assert n == 1, label + ': anchor found ' + str(n) + ' times'
+              assert snippet not in html, label + ': already inserted'
+              html = html.replace(anchor, anchor + snippet, 1)
+              print('inserted', label)
+          css_anchor = '.thumb img{width:100%;height:100%;object-fit:cover;display:block}'
+          assert html.count(css_anchor) == 1, 'css anchor count wrong'
+          html = html.replace(css_anchor, css_anchor + '\n.thumb.contain img{object-fit:contain;background:#fffdf8}', 1)
+          insert_after('<article class="card hub hub-curiosity"><h3>The Curiosity Hub</h3>', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'hub-curiosity')
+          insert_after('<article class="card hub hub-lead"><h3>Leadership in the Age of AI</h3>', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'hub-leadership-ai')
+          insert_after('<article class="card hub hub-podcast"><h3>Update Your Priors</h3>', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'hub-podcast')
+          insert_after('<article class="card framework"><span class="tag">FRAMEWORK</span><h3>Leading with Curiosity</h3>', thumb('thumb contain', 'leading-with-curiosity.html', 'curiosity-compass.svg', 'Curiosity compass - the six elements of the framework around a Bayesian loop', 'Open Leading with Curiosity'), 'framework-leading')
+          insert_after('<article class="card framework career-card"><span class="tag">FRAMEWORK</span><h3>The Art &amp; Science of Building a Career</h3>', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'framework-career')
+          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>Building the AI Blueprint for the Next Decade</h3>', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'deck-recode')
+          insert_after('<article class="card deck presentation-card"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>The Mathematics Singularity</h3>', thumb('thumb', 'the-mathematics-singularity.pdf', 'mathematics-singularity-cover.png', 'The Mathematics Singularity deck - first slide', 'Open The Mathematics Singularity deck'), 'deck-mathematics')
+          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>Every Model Begins with a Prior</h3>', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'deck-everymodel')
+          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>The Curiosity Engine</h3>', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'deck-engine')
+          insert_after('<article class="card deck"><span class="tag">PRESENTATION \u00b7 DECK</span><h3>Curiosity: The Strategic Advantage</h3>', thumb('thumb', 'curiosity-the-strategic-advantage.pdf', 'curiosity-strategic-advantage-cover.png', 'Curiosity is the Strategic Advantage deck - first slide', 'Open the Curiosity is the Strategic Advantage deck'), 'deck-strategic')
+          insert_after('<article class="card"><h3>Every Model Begins with a Prior</h3>', thumb('thumb', 'every-model-begins-with-a-prior.html', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open Every Model Begins with a Prior'), 'writing-everymodel')
+          insert_after('<article class="card"><span class="tag">FRAMEWORK \u00b7 ESSAY</span><h3>The Art &amp; Science of Building a Career</h3>', thumb('thumb', 'career-framework.html', 'career-sardertv-thumb.jpg', 'SarderTV interview - The Art and Science of Building a Career', 'Open The Art and Science of Building a Career'), 'writing-career')
+          insert_after('<article class="card"><h3>What the World Has Taught Me</h3>', thumb('thumb', 'what-the-world-has-taught-me.html', '29-cities-2025-collage.jpg', '2025 travels - twenty-nine cities', 'Open What the World Has Taught Me'), 'beyond-world')
+          assert 'data:image' not in html, 'inlined image found in patched index.html'
+          for img in ['curiosity-engine-cover.png', 'recode-keynote-deck-cover.png', 'every-model-deck-cover.png', 'mathematics-singularity-cover.png', 'curiosity-strategic-advantage-cover.png', 'curiosity-compass.svg', 'career-sardertv-thumb.jpg', '29-cities-2025-collage.jpg']:
+              assert Path('assets/' + img).exists(), 'missing referenced image ' + img
+              assert Path('assets/' + img).stat().st_size > 1000, 'image too small ' + img
+          assert html.count('class="thumb"') == 12, 'plain thumb count wrong'
+          assert html.count('class="thumb contain"') == 1, 'contain thumb count wrong'
+          Path('index.html').write_text(html, encoding='utf-8')
+          print('patched index.html,', len(html), 'chars')
+          PY
+      - name: Commit and self-delete
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/card-visuals.yml
+          git add -A
+          git status --short
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Add a visual to every asset card that has one"
+          git push
