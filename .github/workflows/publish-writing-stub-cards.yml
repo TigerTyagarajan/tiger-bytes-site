@@ -1,4 +1,4 @@
-name: Writing section: remove three stub cards, soften subline
+name: "Writing section: remove three stub cards, soften subline"
 
 on:
   workflow_dispatch:
