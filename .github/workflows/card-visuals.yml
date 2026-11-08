@@ -32,8 +32,9 @@ jobs:
           for stem, out in decks.items():
               assert Path(stem + '.pdf').exists(), stem + '.pdf missing'
               subprocess.run(['pdftoppm', '-png', '-f', '1', '-l', '1', '-r', '140', stem + '.pdf', 'assets/' + stem + '-cover'], check=True)
-              produced = Path('assets/' + stem + '-cover-1.png')
-              assert produced.exists(), 'pdftoppm produced no file for ' + stem
+              produced = list(Path('assets').glob(stem + '-cover-*.png'))
+              assert len(produced) == 1, 'pdftoppm produced ' + str(len(produced)) + ' files for ' + stem
+              produced = produced[0]
               produced.rename(Path('assets') / out)
               print('cover', out, Path('assets/' + out).stat().st_size, 'bytes')
           # 2. Compass graphic from leading-with-curiosity.html -> standalone SVG in assets/
