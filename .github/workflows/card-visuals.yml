@@ -68,9 +68,8 @@ jobs:
               assert snippet not in html, label + ': already inserted'
               html = html.replace(anchor, anchor + snippet, 1)
               print('inserted', label)
-          css_anchor = '.thumb img{width:100%;height:100%;object-fit:cover;display:block}'
-          assert html.count(css_anchor) == 1, 'css anchor count wrong'
-          html = html.replace(css_anchor, css_anchor + '\n.thumb.contain img{object-fit:contain;background:#fffdf8}', 1)
+          assert html.count('</style>') == 1, 'style close count wrong'
+          html = html.replace('</style>', '.thumb.contain img{object-fit:contain;background:#fffdf8}</style>', 1)
           insert_after('<article class="card hub hub-curiosity"><h3>The Curiosity Hub</h3>', thumb('thumb', 'the-curiosity-engine.pdf', 'curiosity-engine-cover.png', 'The Curiosity Engine deck - first slide', 'Open The Curiosity Engine deck'), 'hub-curiosity')
           insert_after('<article class="card hub hub-lead"><h3>Leadership in the Age of AI</h3>', thumb('thumb', 'recode-keynote-deck.pdf', 'recode-keynote-deck-cover.png', 'Recode keynote deck - first slide: Building the AI Blueprint for the Next Decade', 'Open the Recode keynote deck'), 'hub-leadership-ai')
           insert_after('<article class="card hub hub-podcast"><h3>Update Your Priors</h3>', thumb('thumb', 'every-model-begins-with-a-prior-deck.pdf', 'every-model-deck-cover.png', 'Every Model Begins with a Prior deck - first slide', 'Open the Every Model Begins with a Prior deck'), 'hub-podcast')
