@@ -1,0 +1,76 @@
+name: Replace Curiosity Hub visual with Born Curious slide
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  visuals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poppler
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Render page 13 and patch Curiosity Hub card
+        run: |
+          python3 - <<'PY'
+          import re
+          import subprocess
+          from pathlib import Path
+          pdf = Path('the-curiosity-engine.pdf')
+          assert pdf.exists(), 'the-curiosity-engine.pdf missing'
+          out = Path('assets/curiosity-engine-born-curious.png')
+          assert not out.exists(), 'assets/curiosity-engine-born-curious.png already exists'
+          subprocess.run(['pdftoppm', '-png', '-f', '13', '-l', '13', '-r', '140', str(pdf), 'assets/curiosity-engine-born-curious'], check=True)
+          produced = list(Path('assets').glob('curiosity-engine-born-curious-*.png'))
+          assert len(produced) == 1, 'pdftoppm produced ' + str(len(produced)) + ' files'
+          produced[0].rename(out)
+          assert out.stat().st_size > 1000, 'new PNG too small'
+          print('slide', out, out.stat().st_size, 'bytes')
+          old = Path('assets/curiosity-engine-seven-cs.png')
+          assert old.exists(), 'old seven-cs PNG missing from assets'
+          html_path = Path('index.html')
+          html = html_path.read_text(encoding='utf-8')
+          orig_articles = html.count('<article')
+          orig_h3 = html.count('<h3>')
+          old_visual = '<a class="card-visual" href="the-curiosity-engine.pdf" aria-label="Open The Curiosity Engine deck"><img src="assets/curiosity-engine-seven-cs.png" alt="The Curiosity Engine deck - The 7 Cs of the Curiosity Engine" loading="lazy"></a>'
+          new_visual = '<a class="card-visual" href="the-curiosity-engine.pdf" aria-label="Open The Curiosity Engine deck"><img src="assets/curiosity-engine-born-curious.png" alt="The Curiosity Engine deck - Born Curious, Taught to Comply" loading="lazy"></a>'
+          assert html.count(old_visual) == 1, 'old Hub visual matched ' + str(html.count(old_visual))
+          assert 'assets/curiosity-engine-born-curious.png' not in html, 'new visual already in index.html'
+          html = html.replace(old_visual, new_visual)
+          assert html.count(new_visual) == 1, 'new Hub visual count wrong'
+          assert 'assets/curiosity-engine-seven-cs.png' not in html, 'old seven-cs src still in index.html'
+          assert html.count('<article') == orig_articles, 'article count changed'
+          assert html.count('<h3>') == orig_h3, 'h3 count changed'
+          hub = re.search(r'<h3>The Curiosity Hub</h3><a class="card-visual" href="the-curiosity-engine.pdf"[^>]*><img src="assets/curiosity-engine-born-curious.png" alt="The Curiosity Engine deck - Born Curious, Taught to Comply" loading="lazy"></a><p>', html)
+          assert hub, 'Hub visual is not directly below its title and above its paragraph'
+          assert len(re.findall(r'</h3><a class="card-visual[^"]*"', html)) == 12, 'visuals after headings (a) wrong'
+          assert len(re.findall(r'</h3><span class="card-visual">', html)) == 1, 'visuals after headings (span) wrong'
+          assert len(re.findall(r'(?:<a class="card-visual[^"]*"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)<p', html, re.S)) == 13, 'visuals before a paragraph wrong'
+          assert html.count('class="card-visual"') == 11, 'plain card-visual count wrong'
+          assert html.count('class="card-visual contain"') == 2, 'contain card-visual count wrong'
+          srcs = re.findall(r'class="card-visual[^"]*"[^>]*><img src="assets/([^"]+)"', html)
+          assert len(srcs) == 13, 'card-visual image count wrong: ' + str(len(srcs))
+          assert len(set(srcs)) == 13, 'card-visual images are not unique: ' + str(sorted(srcs))
+          for src in srcs:
+              p = Path('assets') / src
+              assert p.exists(), 'missing referenced image ' + src
+              assert p.stat().st_size > 1000, 'image too small ' + src
+          assert 'data:image' not in html, 'inlined image found in patched index.html'
+          for src in sorted(srcs):
+              print('visual', src)
+          html_path.write_text(html, encoding='utf-8')
+          print('patched index.html,', len(html), 'chars')
+          PY
+      - name: Commit and self-delete
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/curiosity-hub-born-curious.yml
+          git add -A
+          git status --short
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Replace Curiosity Hub visual with Born Curious slide (page 13)"
+          git push
