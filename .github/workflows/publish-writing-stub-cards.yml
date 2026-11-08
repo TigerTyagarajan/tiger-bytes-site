@@ -1,0 +1,42 @@
+name: Writing section: remove three stub cards, soften subline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify old hash, replace index.html, verify new hash
+        run: |
+          set -euo pipefail
+          EXPECTED_OLD="5dfef687e7ed757a181ec68e6e61820ab70e920b4b6d5231723518e55237cfab"
+          EXPECTED_NEW="0be407dac25e67b2ce393be96008577e6689df7c9a8bb702bda2f35cdd8791cd"
+          ACTUAL_OLD="$(sha256sum index.html | awk '{print $1}')"
+          echo "old index.html sha256: ${ACTUAL_OLD}"
+          if [ "${ACTUAL_OLD}" != "${EXPECTED_OLD}" ]; then
+            echo "::error::Live index.html sha256 does not match rehearsed value. Aborting; committing nothing."
+            exit 1
+          fi
+          cp index-patched.html index.html
+          ACTUAL_NEW="$(sha256sum index.html | awk '{print $1}')"
+          echo "new index.html sha256: ${ACTUAL_NEW}"
+          if [ "${ACTUAL_NEW}" != "${EXPECTED_NEW}" ]; then
+            echo "::error::New index.html sha256 does not match granted payload. Aborting; committing nothing."
+            exit 1
+          fi
+          echo "hash guards passed"
+      - name: Commit and publish
+        run: |
+          git config user.name "TigerTyagarajan"
+          git config user.email "tigertyagarajan@gmail.com"
+          rm -f index-patched.html .github/workflows/publish-writing-stub-cards.yml
+          rmdir .github/workflows .github 2>/dev/null || true
+          git add -A
+          git status --short
+          git commit -m "Writing section: remove three stub cards, soften subline"
+          git push
