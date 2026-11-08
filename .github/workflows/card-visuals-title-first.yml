@@ -85,6 +85,14 @@ jobs:
           move_card('card', 'FRAMEWORK', 'The Art &amp; Science of Building a Career', 'writing-career')
           move_card('card', 'TRAVEL', 'What the World Has Taught Me', 'beyond-world')
           move_card('card', 'TALK DECK', 'Curiosity: The Strategic Advantage', 'deck-strategic')
+          print('verify after-a', len(re.findall(r'</h3><a class="card-visual"', html)))
+          print('verify after-span', len(re.findall(r'</h3><span class="card-visual">', html)))
+          print('verify before-p', len(re.findall(r'(?:<a class="card-visual[^"]*"[^>]*>.*?</a>|<span class="card-visual">.*?</span>)<p', html, re.S)))
+          print('verify plain', html.count('class="card-visual"'))
+          print('verify contain', html.count('class="card-visual contain"'))
+          print('verify precedes-a', len(re.findall(r'<a class="card-visual[^"]*"[^>]*>.*?</a>\s*<span class="tag">', html, re.S)))
+          print('verify precedes-span', len(re.findall(r'<span class="card-visual">.*?</span>\s*<span class="tag">', html, re.S)))
+          print('verify srcs', sorted(re.findall(r'class="card-visual[^"]*"[^>]*><img src="assets/([^"]+)"', html)))
           # 4. Verify: order, counts, uniqueness, no inlined images, nothing else moved.
           assert html.count('<article') == orig_articles, 'article count changed'
           assert html.count('<h3>') == orig_h3, 'h3 count changed'
