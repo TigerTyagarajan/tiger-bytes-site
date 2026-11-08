@@ -1,0 +1,57 @@
+name: Validate publish tooling
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: validate-publish-tooling
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Write validation payload
+        run: |
+          mkdir -p publish
+          cat > publish/card.html <<'EOF'
+          <article class="card"><h3>VALIDATION CARD — NEVER PUBLISHED</h3><p>Temporary validation card; never published.</p></article>
+          EOF
+          cat > publish/spec.json <<'EOF'
+          {
+            "file": "index.html",
+            "position": "before",
+            "anchor_text": "<article class=\"card\"><h3>Food, wine &amp; Lisbon</h3>",
+            "anchor_regex": null,
+            "section_id": "beyond",
+            "card_file": "publish/card.html",
+            "card_title": "VALIDATION CARD — NEVER PUBLISHED",
+            "sentinels": ["What I stand for", "Beyond work", "</html>"]
+          }
+          EOF
+          cat publish/spec.json
+          cat publish/card.html
+
+      - name: Dry-run the patch (full pipeline, writes nothing)
+        run: python3 tools/publish.py --spec publish/spec.json --dry-run
+
+      - name: Remove temporary validation workflow (self-deletion only)
+        if: always()
+        run: |
+          rm -rf publish/
+          git config user.name "tiger-bytes-publish"
+          git config user.email "publish@tigertyagarajan.com"
+          git rm -q .github/workflows/validate-publish-tooling.yml
+          git status --short
+          if git diff --cached --quiet; then
+            echo "Nothing to commit; workflow file already gone."
+          else
+            git commit -m "Remove temporary validation workflow"
+            git push
+          fi
