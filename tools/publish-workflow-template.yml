@@ -1,0 +1,82 @@
+# ============================================================================
+# Tiger Bytes publish shim — BYTE-IDENTICAL EVERY PUBLISH.
+#
+# Upload this file, unchanged, to .github/workflows/publish.yml for each
+# publish. The only things that ever differ between publishes are DATA:
+#   * publish/spec.json   — the publish spec (anchor, position, card title…)
+#   * publish/card.html   — the card fragment to insert
+#   * any new standalone files (essay pages, post pages, assets/…)
+# The code that patches index.html is tools/publish.py, which lives in the
+# repo permanently and is never rewritten per publish. This shim contains no
+# publish-specific logic at all — no patterns, no asserts, nothing to drift.
+#
+# How the payload gets here (established route): the content files above are
+# uploaded to the repo first (GitHub web upload / git mv workflow), then this
+# shim is uploaded last and dispatched manually. The shim runs the patcher
+# twice — dry-run, then apply — and because publish.py runs the FULL
+# pipeline (including every post-patch check) in dry-run mode, a rehearsal
+# failure stops the run BEFORE anything is written or committed.
+#
+# The shim deletes itself (and the publish/ payload) in the same single
+# commit that lands the patched index.html, per Tiger's established pattern
+# of temporary self-deleting workflows. Next publish, it is re-uploaded
+# byte-identical. One run, one commit, no residue.
+#
+# After this workflow succeeds, a human/agent MUST click-verify the live
+# site (open the new page, click every link the publish touched). A green
+# workflow run is not proof the publish is good — clicking is.
+# ============================================================================
+name: Publish (tiger-bytes)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Never let two publishes race on index.html.
+concurrency:
+  group: tiger-bytes-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # PLACEHOLDER — payload placement.
+      # The payload files (publish/spec.json, publish/card.html and any new
+      # standalone files) are expected to already be in the tree, uploaded
+      # via the established route before this workflow was dispatched.
+      # If a future publish delivers its payload differently (e.g. as a
+      # workflow artifact), add that step HERE — and nowhere else; the
+      # patch/verify/commit steps below must stay untouched.
+      - name: Show payload
+        run: |
+          ls -la publish/
+          cat publish/spec.json
+
+      # Full pipeline against the real index.html, writing nothing.
+      # Any pattern mismatch, guard refusal or failed post-patch check
+      # fails the run HERE — before a single byte is committed.
+      - name: Dry-run the patch (full pipeline, writes nothing)
+        run: python3 tools/publish.py --spec publish/spec.json --dry-run
+
+      # Identical pipeline, then the write. If this fails after the dry-run
+      # passed, something changed under us — investigate, do not retry blind.
+      - name: Apply the patch
+        run: python3 tools/publish.py --spec publish/spec.json --apply
+
+      - name: Commit once (patch + new files + remove shim and payload)
+        run: |
+          git config user.name "tiger-bytes-publish"
+          git config user.email "publish@tigertyagarajan.com"
+          git add -A
+          git rm -q --cached .github/workflows/publish.yml || true
+          rm -f .github/workflows/publish.yml
+          rm -rf publish/
+          git add -A
+          git commit -m "Publish via hardened publish.py (see publish spec history)"
+          git push
