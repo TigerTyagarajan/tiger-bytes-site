@@ -6,8 +6,8 @@ html{scroll-padding-top:84px;background:#ffffff}*{box-sizing:border-box}body{mar
 a{color:inherit}h1,h2,h3,h4{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.08;margin:0;font-weight:800;letter-spacing:-.02em}h1{font-size:clamp(2rem,5.5vw,3.4rem)}h2{font-size:clamp(1.5rem,3.5vw,2.2rem)}section h2{font-size:clamp(2.05rem,4.6vw,2.85rem);font-weight:800;line-height:1.14;text-decoration:underline;text-decoration-color:#e8590c;text-decoration-thickness:5px;text-underline-offset:9px}h3{font-size:1.05rem}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 nav{position:sticky;top:0;z-index:100;background:#ffffff;border-bottom:1px solid var(--line);box-shadow:0 1px 10px rgba(0,0,0,.06)}
-.navin{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;padding:10px 0}.logo{font-weight:800;font-size:1.15rem;letter-spacing:-.02em}.logo span{color:inherit}
-.links{display:flex;flex-wrap:wrap;gap:10px;font-weight:600;font-size:.85rem;align-items:center}.links a{text-decoration:none}.links a:hover{text-decoration:underline;text-underline-offset:3px}
+.navin{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;padding:10px 0}.logo{font-weight:800;font-size:1.5rem;letter-spacing:-.02em}.logo span{color:inherit}
+.links{display:flex;flex-wrap:wrap;gap:12px;font-weight:800;font-size:1.28rem;align-items:center}.links a{text-decoration:none}.links a:hover{text-decoration:underline;text-underline-offset:3px}
 .links a.active{color:#e8590c;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
 .links a.btn.active{color:#ffffff!important;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #e8590c}
 .btn{display:inline-block;background:#e8590c;color:#ffffff!important;padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:700;border:1px solid #e8590c;box-shadow:none}
@@ -89,12 +89,25 @@ input[type=email]{width:100%;padding:14px;border-radius:6px;border:1px solid #9a
 .essay-deck{margin:26px 0 20px}
 .essay-body h4{font-size:1.35rem;line-height:1.2;margin:36px 0 10px;letter-spacing:-.01em}.essay-body .part-source{margin-top:-4px;margin-bottom:18px}
 @media(max-width:700px){.essay-featured{padding:26px 18px}}
-.card-visual{display:block;aspect-ratio:16/9;overflow:hidden;border-radius:6px;border:1px solid var(--line);margin-bottom:12px;background:#f3ead9}.card-visual img{width:100%;height:100%;object-fit:cover;display:block}.card-visual.contain img{object-fit:contain;background:#fffdf8}</style></head><body>
-<nav><div class="wrap navin"><div class="logo">Tiger <span>Bytes</span></div><div class="links"><a href="#about">About</a><a href="#hubs">Hubs</a><a href="#frameworks">Frameworks</a><a href="#talks">Talks</a><a href="#presentations">Presentations</a><a href="#writing">Writing</a><a href="#reads">Reads &amp; Listens</a><a href="#beyond">Beyond Work</a><a class="btn btn-accent" href="#bites">My newsletter — Tiger Bites</a></div></div></nav>
+.card-visual{display:block;aspect-ratio:16/9;overflow:hidden;border-radius:6px;border:1px solid var(--line);margin-bottom:12px;background:#f3ead9}.card-visual img{width:100%;height:100%;object-fit:cover;display:block}.card-visual.contain img{object-fit:contain;background:#fffdf8}
+.links a:not(.btn){background:#fff1e8;border:2px solid #e8590c;color:#e8590c;padding:10px 20px;border-radius:999px;line-height:1.15}
+.links a:not(.btn):hover{background:#e8590c;color:#ffffff;text-decoration:none}
+.links a.active{background:#e8590c;color:#ffffff;text-decoration:none}
+.links a.btn{font-size:1.28rem;padding:12px 24px}
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 4px}
+.doors a{display:block;background:#e8590c;color:#ffffff!important;text-decoration:none;border-radius:12px;padding:22px;font-size:1.45rem;font-weight:800;line-height:1.2}
+.doors a small{display:block;font-size:1.02rem;font-weight:600;margin-top:8px;opacity:.94;line-height:1.35}
+.doors a:hover{background:#d9480f}
+@media (max-width:820px){.doors{grid-template-columns:1fr}.links{font-size:1.12rem}}
+</style></head><body>
+<nav><div class="wrap navin"><div class="logo">Tiger <span>Bytes</span></div><div class="links"><a href="#curiosity">Curiosity</a><a href="#leadership">Leadership &amp; AI</a><a href="#talks">Talks</a><a href="#writing">Writing</a><a href="#reads">Reads &amp; Listens</a><a href="#beyond">Beyond Work</a><a href="#bio">About</a><a class="btn btn-accent" href="#bites">Subscribe — Tiger Bites</a></div></div></nav>
 <main>
 <header class="hero"><div class="wrap"><span class="kicker">LISBON · BOARD MEMBER &amp; SENIOR ADVISOR</span><h1>Curiosity, leadership &amp; the work of staying interested.</h1><p class="lede">I'm Tiger Tyagarajan — CEO of Genpact (2011–2024), now a board member and senior advisor on AI, transformation and how organisations learn. My talks, frameworks, writing and enthusiasms, in one place.</p>
+<p style="font-weight:800;font-size:1.35rem;margin-top:16px">We peak in curiosity at the age of four. Everything here starts from there.</p>
 <p style="margin-top:20px"><a class="btn btn-accent" href="#bites">Subscribe to Tiger Bites — free</a> <a class="btn" href="mailto:tyagarajanassistant@gmail.com?subject=Speaking%20enquiry%20via%20Tiger%20Bytes" style="background:#ffffff;color:#e8590c!important;border:1px solid #e8590c;margin-left:10px">Speaking &amp; engagement enquiries</a></p>
 </div></header>
+
+<section id="doors"><div class="wrap"><div class="doors"><a href="#curiosity">Start with Curiosity<small>The essay, the framework and the book in progress — the thread everything else hangs on.</small></a><a href="#leadership">Leadership in the Age of AI<small>What leaders must do more of, not less, when answers get cheap.</small></a><a href="#beyond">Wander<small>Travel, cricket, food and the night sky — the enthusiasms.</small></a></div></div></section>
 
 <section id="about"><div class="wrap"><h2>What I stand for</h2><div class="about-grid"><figure class="about-photo"><img src="assets/e76a0ff2ac353008.jpg" alt="Tiger Tyagarajan mid-conversation at a podcast table, both hands raised making a point into a studio microphone"></figure><div class="about-text">
 <p>My name is my operating manual. Tyāga — त्याग — is the Bhagavad Gita's word for renunciation, precisely defined: do the work with everything you have, and give up attachment to the fruits. Tyagarajan means “king of renunciation”. I can't claim the serenity — but I recognise the discipline, and its unlikely twin — <strong><em>curiosity</em></strong>.</p>
@@ -103,52 +116,15 @@ input[type=email]{width:100%;padding:14px;border-radius:6px;border:1px solid #9a
 <p>Giving back — knowledge, experience, scars, half-formed views — without attachment to how they land. And holding every view the Bayesian way, the way human beings have actually made progress for 3,000 years: state your prior, meet the evidence, update.</p>
 <p>In a world where the unknown unknowns beat everything else we think we know, that isn't a philosophy. It's survival.</p>
 <p>So read. Argue. Correct me. The continuous updating is the point. And that only happens by being curious, asking questions, debating, and changing.</p>
+<p>Why a website? Because for years everything I wrote lived on LinkedIn — borrowed ground, an algorithm deciding who saw it. This is my way out of being a prisoner of LinkedIn.</p>
+<p>The views here are put out to be debated. Subscribe to Tiger Bites — it's free — and the debate comes straight to you, and your reactions straight back to me. If that starts a conversation, or an invitation to speak, so much the better. And when the curiosity book is written, it will launch from here.</p>
 </div></div></div></section>
 
-<section id="bio"><div class="wrap"><img class="heroimg" src="assets/a9413802ce31eb82.webp" alt="Illustration of a Milky Way sky woven with glowing neuron constellations, above a skyline of Lisbon's Belém Tower and 25 de Abril bridge, London's Tower Bridge, New York's Empire State Building and Bombay's CST and Gateway of India, with the Stock Exchange facade and a ribbon of golden ticker light — and an arc of human evolution ending in a figure gazing up at the stars">
-<div class="orgs">
-<div class="orggroup"><h3 class="orglabel">Board member</h3><div class="orggrid">
-<div class="org"><span class="orgtile"><img src="assets/a7166095a8778ad1.png" alt="Jabil logo"></span><span class="orgname">Jabil</span></div>
-<div class="org"><span class="orgtile"><img src="assets/e011d8c0ef5ddbc0.jpg" alt="Inetum logo"></span><span class="orgname">Inetum</span></div>
-<div class="org"><span class="orgtile"><img src="assets/5579f0e517a259ab.webp" alt="HealthEdge logo"></span><span class="orgname">HealthEdge</span></div>
-<div class="org"><span class="orgtile"><img src="assets/ee65f378a5ee3565.png" alt="MathCo logo"></span><span class="orgname">MathCo</span></div>
-</div></div>
-<div class="orggroup"><h3 class="orglabel">Senior advisor</h3><div class="orggrid">
-<div class="org"><span class="orgtile"><img src="assets/6df7f0555b29a804.webp" alt="BCG — Boston Consulting Group logo"></span><span class="orgname">BCG</span></div>
-<div class="org"><span class="orgtile"><img src="assets/3a78f508a68c3e46.png" alt="Bain Capital logo"></span><span class="orgname">Bain Capital</span></div>
-<div class="org"><span class="orgtile"><img src="assets/6a658a7a456d5d20.png" alt="Brighton Park Capital logo"></span><span class="orgname">Brighton Park Capital</span></div>
-<div class="org"><span class="orgtile"><img src="assets/1d6113da9b83315d.png" alt="Innospark Ventures logo"></span><span class="orgname">Innospark Ventures</span></div>
-<div class="org"><span class="orgtile"><img src="assets/7ebee128b408f79b.png" alt="Genpact logo"></span><span class="orgname">Genpact</span></div>
-<div class="org"><span class="orgtile"><img src="assets/14c791ffcdc77fd4.png" alt="Bridge Green Upcycle logo"></span><span class="orgname">Bridge Green</span></div>
-<div class="org"><span class="orgtile"><img src="assets/ebf6c7504ea2beae.png" alt="ABSL logo"></span><span class="orgname">ABSL</span></div>
-<div class="org"><span class="orgtile"><img src="assets/47ba946eecd89a92.webp" alt="HFS Research logo"></span><span class="orgname">HFS</span></div>
-<div class="org"><span class="orgtile"><img src="assets/9ab5fe05591d89f3.png" alt="HTEC Group logo"></span><span class="orgname">HTEC</span></div>
-<div class="org"><span class="orgtile"><img src="assets/66ebd6a82c570b53.jpg" alt="Skan AI logo"></span><span class="orgname">Skan AI</span></div>
-<div class="org"><span class="orgtile"><img src="assets/072a8ab0a2605647.jpg" alt="ORO Labs logo"></span><span class="orgname">ORO Labs</span></div>
-<div class="org"><span class="orgtile orgtile-dark"><img src="assets/b93d2e509ce5d9ce.png" alt="RevvUp (revvup.ai) logo"></span><span class="orgname">RevvUp</span></div>
-</div></div>
-</div>
-
-<div class="career"><h3>Career in brief</h3>
-<ul class="careerlist">
-<li><span class="cwhen">2011 – 2024</span><div><span class="crole">Genpact — Chief Executive Officer</span><p>Thirteen years leading Genpact (NYSE: G), after serving as Chief Commercial Officer.</p></div></li>
-<li><span class="cwhen">GE Capital years</span><div><span class="crole">Founding CEO of GECIS</span><p>Built GE Capital International Services, the business that became Genpact; earlier CEO of its India consumer &amp; auto finance JVs, later Global COO, Commercial Equipment Finance.</p></div></li>
-<li><span class="cwhen">1991 – 1994</span><div><span class="crole">Citibank India</span></div></li>
-<li><span class="cwhen">From 1985</span><div><span class="crole">Ponds India → Unilever</span></div></li>
-<li><span class="cwhen">Education</span><div><span class="crole">IIT Bombay · IIM Ahmedabad</span></div></li>
-<li><span class="cwhen">Today</span><div><span class="crole">Global locations: Lisbon, New York, Boston, San Francisco, Mumbai, London, Paris, Bangalore, Delhi</span></div></li>
-</ul></div>
-
-<div class="trip"><a href="#talks"><h3>Watch</h3><p>Keynotes &amp; conversations — curated and indexed, each with its event, date and format.</p></a><a href="#writing"><h3>Read</h3><p>Views and posts organised by idea — curiosity, leadership, AI &amp; work — not just by date.</p></a><a href="#frameworks"><h3>Try a framework</h3><p>Frameworks in full — steal them, test them, argue with them.</p></a></div>
-</div></section>
-
-
-
-<section id="hubs"><div class="wrap"><h2>Hubs — everything on one idea, in one place</h2><p class="small">Each hub gathers the talk, writing, audio and one-pager for a single big idea.</p>
+<section id="hubs"><div class="wrap"><h2>Hubs — one big idea each, curiosity first</h2><p class="small">Each hub gathers the talk, writing, audio and one-pager for a single big idea.</p>
 <div class="grid">
-<article class="card"><span class="tag">BOOK IN PROGRESS</span><h3>The Curiosity Hub</h3><a class="card-visual" href="the-curiosity-engine.pdf" aria-label="Open The Curiosity Engine deck"><img src="assets/curiosity-engine-born-curious.png" alt="The Curiosity Engine deck - Born Curious, Taught to Comply" loading="lazy"></a><p>I'm writing a book on curiosity — how it drives learning, leadership and a life well-examined. Writing starts around December 2026. This hub holds the research, tidbits, talks and drafts as they grow.</p><p><strong>Inside:</strong></p><ul class="assetlist"><li>Curiosity talks</li><li>Research notes</li><li>The framework below</li><li>Reading picks</li></ul><p><strong>Go deeper:</strong></p><ul class="assetlist"><li><a href="#born-curious">Born Curious, Taught to Comply — my essay on the biology and the discipline of curiosity</a></li><li><a href="https://tigertyagarajan.com/the-curiosity-engine.pdf" target="_blank" rel="noopener">The Curiosity Engine, the full 17-slide presentation</a></li></ul></article>
-<article class="card"><span class="tag">FRAMEWORK HUB</span><h3>Leadership in the Age of AI</h3><a class="card-visual" href="recode-keynote-deck.pdf" aria-label="Open the Recode keynote deck"><img src="assets/recode-keynote-leadership-ai-era.png" alt="Recode keynote deck - Leadership in the AI Era slide: a compass on a stone plinth" loading="lazy"></a><p>What changes when AI does more of the work — and what leaders must do more of, not less: judgement, questions, culture and trust.</p><p><strong>Inside:</strong></p><ul class="assetlist"><li>Keynotes</li><li>Framework pages</li><li>Podcast conversations</li></ul><p><strong>Go deeper:</strong></p><ul class="assetlist"><li><a href="#answers-got-cheap">The Answers Got Cheap — my essay on the month AI changed mathematics, and what it means for every field</a></li><li><a href="/trust-is-the-new-currency.html">Trust Is the New Currency — my takeaways from the Leadership Enigma conversation with Angela Cretu and Adam Pacifico</a></li></ul></article>
-<article class="card"><span class="tag">PODCAST</span><h3>Update Your Priors</h3><a class="card-visual" href="every-model-begins-with-a-prior-deck.pdf" aria-label="Open the Every Model Begins with a Prior deck"><img src="assets/every-model-deck-bayes-equation.png" alt="Every Model Begins with a Prior deck - One equation for changing your mind: Bayes theorem" loading="lazy"></a><p>My own podcast — conversations that challenge what you thought you knew, and update it. Every episode comes with its transcript and the takeaways worth keeping.</p><p><strong>Go deeper:</strong></p><ul class="assetlist"><li><a href="/every-model-begins-with-a-prior.html">Every Model Begins with a Prior — my essay on Bayes's theorem and what it teaches the age of AI</a></li><li><a href="/every-model-begins-with-a-prior-deck.pdf">Every Model Begins with a Prior — the 20-slide presentation</a></li></ul></article>
+<article class="card" id="curiosity"><span class="tag">BOOK IN PROGRESS</span><h3>The Curiosity Hub</h3><a class="card-visual" href="the-curiosity-engine.pdf" aria-label="Open The Curiosity Engine deck"><img src="assets/curiosity-engine-born-curious.png" alt="The Curiosity Engine deck - Born Curious, Taught to Comply" loading="lazy"></a><p>I'm writing a book on curiosity — how it drives learning, leadership and a life well-examined. Writing starts around December 2026. This hub holds the research, tidbits, talks and drafts as they grow.</p><p><strong>Inside:</strong></p><ul class="assetlist"><li>Curiosity talks</li><li>Research notes</li><li>The framework below</li><li>Reading picks</li></ul><p><strong>Go deeper:</strong></p><ul class="assetlist"><li><a href="#born-curious">Born Curious, Taught to Comply — my essay on the biology and the discipline of curiosity</a></li><li><a href="https://tigertyagarajan.com/the-curiosity-engine.pdf" target="_blank" rel="noopener">The Curiosity Engine, the full 17-slide presentation</a></li></ul></article>
+<article class="card" id="leadership"><span class="tag">FRAMEWORK HUB</span><h3>Leadership in the Age of AI</h3><a class="card-visual" href="recode-keynote-deck.pdf" aria-label="Open the Recode keynote deck"><img src="assets/recode-keynote-leadership-ai-era.png" alt="Recode keynote deck - Leadership in the AI Era slide: a compass on a stone plinth" loading="lazy"></a><p>What changes when AI does more of the work — and what leaders must do more of, not less: judgement, questions, culture and trust.</p><p><strong>Inside:</strong></p><ul class="assetlist"><li>Keynotes</li><li>Framework pages</li><li>Podcast conversations</li></ul><p><strong>Go deeper:</strong></p><ul class="assetlist"><li><a href="#answers-got-cheap">The Answers Got Cheap — my essay on the month AI changed mathematics, and what it means for every field</a></li><li><a href="/trust-is-the-new-currency.html">Trust Is the New Currency — my takeaways from the Leadership Enigma conversation with Angela Cretu and Adam Pacifico</a></li></ul></article>
+<article class="card"><span class="tag">PODCAST</span><h3>Update Your Priors</h3><a class="card-visual" href="every-model-begins-with-a-prior-deck.pdf" aria-label="Open the Every Model Begins with a Prior deck"><img src="assets/every-model-deck-bayes-equation.png" alt="Every Model Begins with a Prior deck - One equation for changing your mind: Bayes theorem" loading="lazy"></a><p>My own podcast — conversations that challenge what you thought you knew, and update it. Curiosity as a method — state your prior, meet the evidence, update. Every episode comes with its transcript and the takeaways worth keeping.</p><p><strong>Go deeper:</strong></p><ul class="assetlist"><li><a href="/every-model-begins-with-a-prior.html">Every Model Begins with a Prior — my essay on Bayes's theorem and what it teaches the age of AI</a></li><li><a href="/every-model-begins-with-a-prior-deck.pdf">Every Model Begins with a Prior — the 20-slide presentation</a></li></ul></article>
 </div></div></section>
 
 <section id="frameworks"><div class="wrap"><h2>Frameworks — in full</h2><p class="small">The frameworks I actually use, published in full — steal them, test them, argue with them.</p>
@@ -235,6 +211,43 @@ input[type=email]{width:100%;padding:14px;border-radius:6px;border:1px solid #9a
 <article class="card"><h3>Night sky &amp; sport</h3><p>Amateur astronomer and stargazer — a clear sky still stops me in my tracks. <strong>Cricket</strong> — India, always. <strong>Football</strong> — Portugal, France, Spain and Brazil. And <strong>chess</strong> — ~1100 on chess.com, improving the honest way: by studying, not by hoping.</p></article>
 </div></div></section>
 
+<section id="bio"><div class="wrap"><h2>About — boards, advisory roles &amp; career in brief</h2><img class="heroimg" src="assets/a9413802ce31eb82.webp" alt="Illustration of a Milky Way sky woven with glowing neuron constellations, above a skyline of Lisbon's Belém Tower and 25 de Abril bridge, London's Tower Bridge, New York's Empire State Building and Bombay's CST and Gateway of India, with the Stock Exchange facade and a ribbon of golden ticker light — and an arc of human evolution ending in a figure gazing up at the stars">
+<div class="orgs">
+<div class="orggroup"><h3 class="orglabel">Board member</h3><div class="orggrid">
+<div class="org"><span class="orgtile"><img src="assets/a7166095a8778ad1.png" alt="Jabil logo"></span><span class="orgname">Jabil</span></div>
+<div class="org"><span class="orgtile"><img src="assets/e011d8c0ef5ddbc0.jpg" alt="Inetum logo"></span><span class="orgname">Inetum</span></div>
+<div class="org"><span class="orgtile"><img src="assets/5579f0e517a259ab.webp" alt="HealthEdge logo"></span><span class="orgname">HealthEdge</span></div>
+<div class="org"><span class="orgtile"><img src="assets/ee65f378a5ee3565.png" alt="MathCo logo"></span><span class="orgname">MathCo</span></div>
+</div></div>
+<div class="orggroup"><h3 class="orglabel">Senior advisor</h3><div class="orggrid">
+<div class="org"><span class="orgtile"><img src="assets/6df7f0555b29a804.webp" alt="BCG — Boston Consulting Group logo"></span><span class="orgname">BCG</span></div>
+<div class="org"><span class="orgtile"><img src="assets/3a78f508a68c3e46.png" alt="Bain Capital logo"></span><span class="orgname">Bain Capital</span></div>
+<div class="org"><span class="orgtile"><img src="assets/6a658a7a456d5d20.png" alt="Brighton Park Capital logo"></span><span class="orgname">Brighton Park Capital</span></div>
+<div class="org"><span class="orgtile"><img src="assets/1d6113da9b83315d.png" alt="Innospark Ventures logo"></span><span class="orgname">Innospark Ventures</span></div>
+<div class="org"><span class="orgtile"><img src="assets/7ebee128b408f79b.png" alt="Genpact logo"></span><span class="orgname">Genpact</span></div>
+<div class="org"><span class="orgtile"><img src="assets/14c791ffcdc77fd4.png" alt="Bridge Green Upcycle logo"></span><span class="orgname">Bridge Green</span></div>
+<div class="org"><span class="orgtile"><img src="assets/ebf6c7504ea2beae.png" alt="ABSL logo"></span><span class="orgname">ABSL</span></div>
+<div class="org"><span class="orgtile"><img src="assets/47ba946eecd89a92.webp" alt="HFS Research logo"></span><span class="orgname">HFS</span></div>
+<div class="org"><span class="orgtile"><img src="assets/9ab5fe05591d89f3.png" alt="HTEC Group logo"></span><span class="orgname">HTEC</span></div>
+<div class="org"><span class="orgtile"><img src="assets/66ebd6a82c570b53.jpg" alt="Skan AI logo"></span><span class="orgname">Skan AI</span></div>
+<div class="org"><span class="orgtile"><img src="assets/072a8ab0a2605647.jpg" alt="ORO Labs logo"></span><span class="orgname">ORO Labs</span></div>
+<div class="org"><span class="orgtile orgtile-dark"><img src="assets/b93d2e509ce5d9ce.png" alt="RevvUp (revvup.ai) logo"></span><span class="orgname">RevvUp</span></div>
+</div></div>
+</div>
+
+<div class="career"><h3>Career in brief</h3>
+<ul class="careerlist">
+<li><span class="cwhen">2011 – 2024</span><div><span class="crole">Genpact — Chief Executive Officer</span><p>Thirteen years leading Genpact (NYSE: G), after serving as Chief Commercial Officer.</p></div></li>
+<li><span class="cwhen">GE Capital years</span><div><span class="crole">Founding CEO of GECIS</span><p>Built GE Capital International Services, the business that became Genpact; earlier CEO of its India consumer &amp; auto finance JVs, later Global COO, Commercial Equipment Finance.</p></div></li>
+<li><span class="cwhen">1991 – 1994</span><div><span class="crole">Citibank India</span></div></li>
+<li><span class="cwhen">From 1985</span><div><span class="crole">Ponds India → Unilever</span></div></li>
+<li><span class="cwhen">Education</span><div><span class="crole">IIT Bombay · IIM Ahmedabad</span></div></li>
+<li><span class="cwhen">Today</span><div><span class="crole">Global locations: Lisbon, New York, Boston, San Francisco, Mumbai, London, Paris, Bangalore, Delhi</span></div></li>
+</ul></div>
+
+<div class="trip"><a href="#talks"><h3>Watch</h3><p>Keynotes &amp; conversations — curated and indexed, each with its event, date and format.</p></a><a href="#writing"><h3>Read</h3><p>Views and posts organised by idea — curiosity, leadership, AI &amp; work — not just by date.</p></a><a href="#frameworks"><h3>Try a framework</h3><p>Frameworks in full — steal them, test them, argue with them.</p></a></div>
+</div></section>
+
 <section id="bites"><div class="wrap"><h2>Tiger Bites — my newsletter</h2><p>Short, regular and manageable: one idea, one talk or post worth your time, and one thing I'm reading or listening to. Named <em>Bites</em> — the site is <em>Bytes</em>.</p><form action="https://buttondown.com/api/emails/embed-subscribe/tigerbites" method="post"><label>Email address <input type="email" required name="email" placeholder="you@example.com"></label><p><button class="btn btn-accent" type="submit">Subscribe to Tiger Bites →</button></p></form>
 <p class="small">Your address is used only for Tiger Bites. Unsubscribe anytime.</p>
 <p class="small"><a href="https://buttondown.com/refer/tigerbites" target="_blank" rel="noopener">Powered by Buttondown</a></p>
@@ -259,7 +272,7 @@ document.querySelectorAll('[data-shelf] .seemore').forEach(function(b){b.addEven
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav .links a[href^="#"]'));
   if(!navLinks.length) return;
   var nav = document.querySelector('nav');
-  var map = {about:'about', bio:'about', hubs:'hubs', frameworks:'frameworks', talks:'talks', presentations:'presentations', writing:'writing', reads:'reads', beyond:'beyond', bites:'bites'};
+  var map = {about:'about', bio:'bio', hubs:'curiosity', frameworks:'frameworks', talks:'talks', presentations:'presentations', writing:'writing', reads:'reads', beyond:'beyond', bites:'bites'};
   var sections = [];
   Object.keys(map).forEach(function(id){
     var el = document.getElementById(id);
