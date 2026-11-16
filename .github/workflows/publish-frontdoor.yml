@@ -1,0 +1,23 @@
+name: "Publish front-door restructure"
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Verify hashes before replacing index.html"
+        run: |
+          echo "e0775a494abbb0319a4bda1bd451b3ab62e564dafb9c75a3354da83037b3f54f  index.html" | sha256sum -c -
+          echo "1073fbc08cbcef1a9f5d98628414b81f168440f05bc84445f8e7ba0b3bbf8620  index-frontdoor.html" | sha256sum -c -
+      - name: "Replace index.html and self-delete this workflow"
+        run: |
+          mv index-frontdoor.html index.html
+          rm .github/workflows/publish-frontdoor.yml
+          git config user.name "Tiger Bytes publish"
+          git config user.email "publish@tigertyagarajan.com"
+          git add -A
+          git commit -m "Front door - curiosity-first restructure, big coloured nav, About moved down, About closing passage"
+          git push
