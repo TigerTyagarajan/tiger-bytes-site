@@ -1,0 +1,41 @@
+name: "Move Language and Linguistics shelf to Beyond work"
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: "Verify pre-image and existing assets, swap in staged page, verify post-image"
+        shell: bash
+        run: |
+          set -euo pipefail
+          cur=$(sha256sum "index.html" | cut -d" " -f1)
+          if [ "$cur" != "f0af13b9d030c8772c77738a56f883df0fd40f66708936a033690cd653b93bc0" ]; then echo "PRE-IMAGE MISMATCH index.html: $cur"; exit 1; fi
+          a1=$(sha256sum "assets/111-idioms-and-phrases-cover.jpg" | cut -d" " -f1)
+          if [ "$a1" != "4d15a42bd6fbf21ca9bba3aa7d2ffcbfc28d924922b14fca4068376bbca827af" ]; then echo "ASSET MISMATCH assets/111-idioms-and-phrases-cover.jpg: $a1"; exit 1; fi
+          a2=$(sha256sum "assets/first-global-village-cover.jpg" | cut -d" " -f1)
+          if [ "$a2" != "8b60ebb3bcc1f718db3f56c284d479ab86878ce95181086e3f7619f9d97a3961" ]; then echo "ASSET MISMATCH assets/first-global-village-cover.jpg: $a2"; exit 1; fi
+          a3=$(sha256sum "assets/first-global-village-bertrand-stamp.jpg" | cut -d" " -f1)
+          if [ "$a3" != "1d97f27eec9d61d28d3b4cafef4788afb06d00bfc6c7bcde93557b5932cd8bfc" ]; then echo "ASSET MISMATCH assets/first-global-village-bertrand-stamp.jpg: $a3"; exit 1; fi
+          a4=$(sha256sum "assets/the-portuguese-hatton-cover.jpg" | cut -d" " -f1)
+          if [ "$a4" != "f8ce5c451123a4d979cd3a30d2c0e3b0c44564ff87b6a145aac4613d4805e12e" ]; then echo "ASSET MISMATCH assets/the-portuguese-hatton-cover.jpg: $a4"; exit 1; fi
+          cp ".cta-staging/index.html" "index.html"
+          new=$(sha256sum "index.html" | cut -d" " -f1)
+          if [ "$new" != "c9ce458b5823581f9fb277d1640f5e199da81f15a15296b53e440044c9b7cd08" ]; then echo "POST-IMAGE MISMATCH index.html: $new"; exit 1; fi
+          echo "OK index.html swapped; 4 existing assets verified untouched"
+      - name: "Commit update and clean up"
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Tiger Tyagarajan"
+          git config user.email "vn.tyagarajan@gmail.com"
+          git add index.html
+          git commit -m "Move Language and Linguistics notes to Beyond work, before Food & wine"
+          rm -rf .cta-staging .github/workflows/publish-language-move.yml
+          git add -A
+          git commit -m "Remove Language move publish staging and workflow" || true
+          git push
