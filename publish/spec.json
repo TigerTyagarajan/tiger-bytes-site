@@ -1,0 +1,11 @@
+{
+  "file": "index.html",
+  "anchor_text": "<title>Tiger Bytes — Tiger Tyagarajan</title>",
+  "position": "after",
+  "card_file": "publish/meta-block.html",
+  "card_title": "og:title",
+  "sentinels": [
+    "<title>Tiger Bytes — Tiger Tyagarajan</title>",
+    "</html>"
+  ]
+}
