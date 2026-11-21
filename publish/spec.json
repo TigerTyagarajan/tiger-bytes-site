@@ -1,0 +1,11 @@
+{
+  "file": "index.html",
+  "anchor_text": "<meta property=\"og:image\" content=\"https://tigertyagarajan.com/assets/e76a0ff2ac353008.jpg\">",
+  "position": "after",
+  "card_file": "publish/author-block.html",
+  "card_title": "article:author",
+  "sentinels": [
+    "<title>Tiger Bytes — Tiger Tyagarajan</title>",
+    "</html>"
+  ]
+}
